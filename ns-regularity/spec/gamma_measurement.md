@@ -70,36 +70,77 @@ the filtered ones.
 cubic in the fields, so scale-local pieces do not sum to the total. Use $E_j$ for
 *geometry per scale* and the unfiltered net for the *budget*.
 
-## 4. The binding resolution constraint (derived, not assumed)
+## 4. The measurement scale — **revised after citation verification**
 
-The hypothesis of Theorem C3 lives at $r\sim\ell_\nu=(\nu/M)^{1/2}$. With
-$k_{\max}=\pi N/L$,
+An earlier version of this section concluded that the Theorem C3 hypothesis is
+effectively unmeasurable, on the grounds that it lives at $r\sim\ell_\nu$ and
+$\ell_\nu/\Delta x\approx0.4$ at the standard DNS criterion $k_{\max}\eta\ge2$.
+**That conclusion was wrong, and wrong because the scale was wrong.**
 
-$$\frac{\eta}{\Delta x}=\frac{k_{\max}\eta}{\pi},\qquad
-\frac{\ell_\nu}{\Delta x}=\frac{\ell_\nu}{\eta}\cdot\frac{k_{\max}\eta}{\pi}.$$
+A13 states the criterion at a scale comparable to the **radius of spatial
+analyticity** $R_{\rm an}$, not at $\ell_\nu$. The two are of the same order in
+the sense that both are viscous scales, but they differ by a substantial
+constant, and that constant decides measurability.
 
-**$\ell_\nu/\Delta x$ depends only on $k_{\max}\eta$, not on $N$.** Refining the
-grid at fixed $k_{\max}\eta$ buys no measurability whatsoever. Measured on the
-$64^3$ Taylor–Green run, $\ell_\nu/\eta\approx0.63$, giving
-(`code/scripts/resolution_budget.py`):
+### 4.1 Measuring $R_{\rm an}$
 
-| target $k_{\max}\eta$ | $\eta/\Delta x$ | $\ell_\nu/\Delta x$ | verdict |
+A function analytic in a strip of width $R$ has Fourier coefficients decaying
+like $e^{-R|k|}$, so $E(k)\sim e^{-2Rk}$. Fit $\log E(k)=a-2Rk$ over a window
+above the energy-containing range and below the $2/3$ dealiasing cutoff
+(`diagnostics.analyticity_radius`). **Report $r^2$ and refuse the estimate when
+the fit is poor** — for a band-limited initial condition (Taylor–Green,
+Kida–Pelz at $t=0$) there is no exponential range at all and the fit returns
+$r^2\approx0.04$ with a nonsensical negative $R$. The estimator correctly flags
+this rather than returning a number.
+
+### 4.2 What was measured
+
+At $64^3$, $\nu=0.02$, once the flow has developed ($t\gtrsim1$, $r^2\ge0.96$):
+
+| family | $R_{\rm an}/\Delta x$ | $\ell_\nu/\Delta x$ | $R_{\rm an}/\ell_\nu$ |
 |---|---|---|---|
-| 2 (standard DNS) | 0.64 | **0.40** | $r\sim\ell_\nu$ is sub-grid; $\delta\equiv1$, no information |
-| 4 | 1.27 | 0.80 | still sub-grid |
-| 10 | 3.18 | 2.01 | marginal: a 5-point segment |
-| ~20 | 6.4 | ~4 | measurable |
+| Taylor–Green | 4.8–8.0 | 1.17–1.24 | 3.8–6.9 |
+| antiparallel tubes | 10.2–12.0 | 1.44–2.20 | 5.5–7.1 |
+| Kida–Pelz | 2.8 | 0.65 | 4.3 |
 
-This was confirmed empirically: on the $64^3$ run at $\nu=0.02$,
-$\ell_\nu/\Delta x\in[1.00,1.27]$ and $\delta(r\!\sim\!\ell_\nu)=1.000$ at every
-snapshot — exactly as predicted, and carrying no information.
+**$R_{\rm an}\approx4$–$7\,\ell_\nu$, and $R_{\rm an}/\Delta x\approx3$–$12$.** The
+theorem's scale is therefore comfortably resolved at $64^3$ while $\ell_\nu$ is
+not. Evaluating sparseness at $\ell_\nu$ — as the earlier draft did — used a
+scale $4$–$7\times$ too small, which is exactly why $\delta$ came back pinned at
+$1.000$ (a segment of one or two cells is fully occupied by construction, for any
+set).
 
-**Consequence for the campaign.** Measuring the geometric hypotheses requires
-$k_{\max}\eta\sim10$–$20$, i.e. roughly $5$–$10\times$ the linear resolution of a
-"well-resolved" DNS at the same $\nu$ ($10^2$–$10^3\times$ the cost), or a
-correspondingly larger $\nu$ at fixed $N$. The geometry measurement and the
-blow-up search therefore **compete for the same grid** and cannot be satisfied by
-one run. See `campaign_4gpu.md` §2.
+### 4.3 Consequence
+
+With both corrections applied — the six component super-level sets (§2) and the
+analyticity-radius scale — the C3 hypothesis becomes **measurable at standard
+resolution**. First informative measurement, antiparallel tubes at $64^3$:
+
+$$\delta_{\rm worst,\,p95}\big(r\sim R_{\rm an}\big)\approx0.28\text{–}0.32,
+\qquad R_{\rm an}/\Delta x\approx11,\qquad r^2=1.00 .$$
+
+Whether $0.3$ clears the theorem's threshold is **unknown**, because $\delta_0$ is
+still unverified (`prereg/FREEZE_BLOCKERS.md` item 2). So H2 remains untestable —
+but the quantity it is about now exists, which it did not before.
+
+**The earlier claim that the geometry measurement and the blow-up search compete
+for the same grid is therefore withdrawn** in the form it was stated. They still
+prefer different viscosities, but not by the order of magnitude previously
+asserted, and no special over-resolution is needed to see $\delta$ at the
+theorem's scale. $k_{\max}\eta\ge2$ remains required for the run to be trustworthy
+at all.
+
+### 4.4 What still binds
+
+Two honest caveats:
+
+1. $R_{\rm an}$ from spectral decay is a **global** quantity; the criterion wants a
+   uniform lower bound on a local analyticity radius. A global fit can only
+   overestimate the local worst case, so $\delta(r\sim R_{\rm an}^{\rm global})$
+   is evaluated at a scale at least as large as the theorem wants — the
+   conservative direction for a *sparseness* (thinness) claim is the larger $r$,
+   so this is not obviously safe and should be stated as a caveat, not waved away.
+2. The fit window is a choice. Report it, and report $r^2$ with every $R_{\rm an}$.
 
 ## 5. Estimators and their calibration
 

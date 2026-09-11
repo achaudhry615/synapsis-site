@@ -135,3 +135,44 @@ def ic_resolution_check(grid, uh, nu, target=2.0):
     return {"enstrophy_0": Om, "kmax_eta_0": kme, "resolved": kme >= target,
             "target": target, "nu": nu, "nu_required": float(nu_req),
             "nu_shortfall_factor": float(nu_req / nu) if nu > 0 else float("inf")}
+
+
+def analyticity_radius(grid, uh, kmin_frac=0.35, kmax_frac=0.85):
+    """Estimate the radius of spatial analyticity from spectral decay.
+
+    For a function analytic in a strip of width R, the Fourier coefficients decay
+    like exp(-R|k|), so the energy spectrum decays like exp(-2R k). Fitting
+    log E(k) = a - 2 R k over the dissipation range gives R.
+
+    This is the scale the Grujic sparseness criterion is actually stated at
+    (A13, corrected): "comparable to the uniform lower bound on the radius of
+    spatial analyticity" -- NOT ell_nu = (nu/||omega||_inf)^{1/2} by definition,
+    although the two are of the same order.
+
+    The fit window is a fraction of k_max, chosen to sit above the energy-containing
+    range and below the dealiasing cutoff (2/3 k_max). Returns the estimate, the
+    fit quality, and the window actually used; a poor r^2 means the spectrum is
+    not in a clean exponential regime and the estimate should not be used.
+    """
+    E = grid.shell_spectrum(uh)
+    k = np.arange(E.size)
+    kmaxi = int(grid.N // 2)
+    lo = max(2, int(kmin_frac * kmaxi))
+    hi = min(int(kmax_frac * kmaxi), int((grid.N // 3)))   # stay below dealias cutoff
+    if hi - lo < 4:
+        return {"R_analytic": float("nan"), "r2": float("nan"), "window": [lo, hi]}
+    sel = slice(lo, hi + 1)
+    y = E[sel]
+    good = y > 0
+    if good.sum() < 4:
+        return {"R_analytic": float("nan"), "r2": float("nan"), "window": [lo, hi]}
+    kk = k[sel][good]
+    ly = np.log(y[good])
+    A = np.vstack([kk, np.ones_like(kk, dtype=float)]).T
+    coef, *_ = np.linalg.lstsq(A, ly, rcond=None)
+    resid = ly - A @ coef
+    sst = float(np.sum((ly - ly.mean()) ** 2))
+    r2 = float(1 - np.sum(resid**2) / sst) if sst > 0 else float("nan")
+    R = -float(coef[0]) / 2.0
+    return {"R_analytic": R, "r2": r2, "window": [int(lo), int(hi)],
+            "R_over_dx": R / grid.dx, "slope": float(coef[0])}

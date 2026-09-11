@@ -24,6 +24,11 @@ def geometry_snapshot(g, uh, nu, d, capture=0.9):
 
     ell_nu = d["ell_nu"]
     ell_nu_cells = ell_nu / g.dx
+    # A13 (corrected): the criterion's scale is the radius of spatial
+    # analyticity, not ell_nu. Measure it; it is several times ell_nu and, unlike
+    # ell_nu, it is resolvable on the grid.
+    an = dg.analyticity_radius(g, uh)
+    R_an_cells = an["R_analytic"] / g.dx if an["R_analytic"] == an["R_analytic"] else float("nan")
     # sparseness on a curve of scales, reported in units of ell_nu
     r_cells = [r for r in (2, 4, 8, 12, 16, 24) if r < g.N // 2]
     spars = gamma.sparseness_curve(mask, r_cells, n_samples=2500)
@@ -36,6 +41,9 @@ def geometry_snapshot(g, uh, nu, d, capture=0.9):
     for r in r_cells:
         gs_ = gamma.sparseness_grujic(om, r, lam=0.5, n_samples=2000)
         gs_["r_over_ell_nu"] = float(r / ell_nu_cells) if ell_nu_cells > 0 else float("inf")
+        gs_["r_over_R_analytic"] = (float(r / R_an_cells)
+                                    if R_an_cells == R_an_cells and R_an_cells > 0
+                                    else float("nan"))
         gs_.pop("per_set", None)
         grujic.append(gs_)
 
@@ -46,6 +54,8 @@ def geometry_snapshot(g, uh, nu, d, capture=0.9):
         "set_volume_fraction": vf,
         "ell_nu": ell_nu,
         "ell_nu_over_dx": float(ell_nu_cells),
+        "analyticity": an,
+        "R_analytic_over_dx": float(R_an_cells),
         "sparseness_curve_magnitude_DIAGNOSTIC": spars,
         "sparseness_grujic_components": grujic,
         "holder_beta": gamma.holder_beta_xi(xi, mask, [1, 2, 4, 8]),
@@ -127,11 +137,17 @@ def main():
             gs = geometry_snapshot(g, s.vh, a.nu, d)
             log.write({"record": "geometry", "t": s.t, **gs})
             sp = gs["sparseness_grujic_components"]
-            best = min(sp, key=lambda q: abs(q["r_over_ell_nu"] - 1.0))
+            # evaluate at r ~ R_analytic (the theorem's scale) when the spectral
+            # fit is trustworthy; fall back to ell_nu otherwise
+            use_R = gs["analyticity"]["r2"] > 0.9 and gs["R_analytic_over_dx"] > 1
+            key = "r_over_R_analytic" if use_R else "r_over_ell_nu"
+            cand = [q for q in sp if q[key] == q[key]]
+            best = min(cand, key=lambda q: abs(q[key] - 1.0)) if cand else sp[0]
             print(f"  t={s.t:6.3f}  wmax={d['omega_max']:7.4f}  kmax*eta={d['kmax_eta']:5.2f}  "
-                  f"ell_nu/dx={gs['ell_nu_over_dx']:5.2f}  R_E={gs['R_E']:+7.3f}  "
+                  f"R_an/dx={gs['R_analytic_over_dx']:5.2f}(r2={gs['analyticity']['r2']:.2f})  "
+                  f"R_E={gs['R_E']:+7.3f}  "
                   f"beta={gs['holder_beta']['beta']:5.3f}  D_inf={gs['dimensions'].get('inf', float('nan')):5.2f}  "
-                  f"delta_G(r~ell_nu)={best['delta_worst_p95']:.3f}")
+                  f"delta_G(r~{'R_an' if use_R else 'l_nu'})={best['delta_worst_p95']:.3f}")
             isnap += 1
 
     ts, wmax = np.array(ts), np.array(wmax)

@@ -200,6 +200,27 @@ def test_c5_modulus():
           "|log r| vanishes at r=1 and inverts the verdict")
 
 
+def test_analyticity_radius():
+    sec("4c. radius of spatial analyticity (the Theorem C3 scale)")
+    g = Grid(64)
+    nu = 0.02
+    s0 = NSSolver(g, nu, ic.taylor_green(g))
+    a0 = dg.analyticity_radius(g, s0.vh)
+    check("band-limited initial data is REFUSED (low r^2), not given a number",
+          not (a0["r2"] > 0.9), f"r2={a0['r2']:.3f} R={a0['R_analytic']:.4f}")
+    while s0.t < 1.5:
+        s0.step()
+    a1 = dg.analyticity_radius(g, s0.vh)
+    d1 = dg.basic(g, s0.vh, nu, refine=False)
+    check("developed flow gives a clean exponential range", a1["r2"] > 0.95,
+          f"r2={a1['r2']:.4f}")
+    check("R_analytic is positive and resolvable on the grid",
+          a1["R_analytic"] > 0 and a1["R_over_dx"] > 2, f"R/dx={a1['R_over_dx']:.2f}")
+    ratio = a1["R_analytic"] / d1["ell_nu"]
+    check("R_analytic is several times ell_nu (they are NOT interchangeable)",
+          2.0 < ratio < 12.0, f"R/ell_nu={ratio:.2f}")
+
+
 def test_fit_recovery():
     sec("5. model selection")
     rng = np.random.default_rng(2)
@@ -266,6 +287,7 @@ if __name__ == "__main__":
     test_solver_conservation()
     test_geometry_recovery()
     test_c5_modulus()
+    test_analyticity_radius()
     test_fit_recovery()
     test_prop_b1_algebra()
     n = len(RESULTS)

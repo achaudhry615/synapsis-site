@@ -477,37 +477,51 @@ Measure that instead of $\zeta_p$.
 
 ### 6.3 What a resolution ladder can and cannot establish
 
-At the resolutions reachable on four GPUs, with $k_{\max}\eta\ge2$ enforced,
+**This subsection previously asserted that the geometric hypotheses are
+unmeasurable except at $k_{\max}\eta\sim10$–$20$, and that the geometry
+measurement and the blow-up search therefore compete for the same grid by an
+order of magnitude in $\nu$. That assertion rested on evaluating sparseness at
+$\ell_\nu$, which is not the scale A13 states. It is withdrawn.** The corrected
+account is in `spec/gamma_measurement.md` §4; the short version:
+
+- A13's scale is the radius of spatial analyticity $R_{\rm an}$, measurable from
+  the exponential decay $E(k)\sim e^{-2R_{\rm an}k}$.
+- Measured at $64^3$, $R_{\rm an}\approx4$–$7\,\ell_\nu$ and
+  $R_{\rm an}/\Delta x\approx3$–$12$. The theorem's scale is resolved at standard
+  resolution; $\ell_\nu$ is not.
+- With the six component sets (§A13 correction 1) and this scale, the first
+  informative measurement is $\delta_{\rm worst,p95}\approx0.28$–$0.32$ for
+  antiparallel tubes, against the $1.000$ — i.e. no information — that the
+  earlier setup returned.
+
+What remains true, and is the real constraint:
+
+At the resolutions reachable on four GPUs with $k_{\max}\eta\ge2$ enforced,
 $512^3$ admits $\nu\approx9\times10^{-5}$ at unit volume-averaged enstrophy
-(computed in `code/scripts/resolution_budget.py`; the figure scales as
-$\eta^2\sqrt{2\Omega_v}$, so it moves with the flow's dissipation rate).
-**Viscous Navier–Stokes at a viscosity a grid of that size can resolve will not
-blow up.** Worse, §4 of `spec/gamma_measurement.md` shows the geometric
-hypotheses are *unmeasurable* at $k_{\max}\eta=2$, and become measurable only at
-$k_{\max}\eta\sim10$–$20$, which at $512^3$ means $\nu\gtrsim2\times10^{-3}$.
-The blow-up search and the geometry measurement therefore pull the viscosity in
-opposite directions by more than an order of magnitude. A
-campaign whose primary endpoint is "find a surviving blow-up candidate" is
-therefore designed to return null regardless of the truth of the conjecture, and
-its null result will again be uninformative.
+(`code/scripts/resolution_budget.py`). **Viscous Navier–Stokes at a viscosity a
+grid of that size can resolve will not blow up.** So a campaign whose primary
+endpoint is "find a surviving candidate" is designed to return null whatever the
+truth, and its null result is uninformative — the defect of both prior gauntlet
+rounds. The endpoints must be reordered:
 
-**The campaign must therefore be re-scoped**, and is, in
-`spec/campaign_4gpu.md`:
+| endpoint | content | expected result |
+|---|---|---|
+| **primary** | $\delta_{\rm worst}(r/R_{\rm an})$, $\beta$, $\mu_\xi\log(L/r)$, $\mathcal R_E$, and their trends as $\nu\downarrow$ and under refinement | informative either way |
+| **secondary** | blow-up candidate search through the gate ladder | **preregistered expected count: 0** |
 
-- **Primary endpoint:** measurement of $\delta(r/\ell_\nu)$, $\beta$, the
-  mean-oscillation modulus $\mu_\xi(r)$, $\mathcal R_E$, and $\rho(\ell_\nu)$,
-  together with their trends as $\nu$ decreases and their stability under
-  refinement. These are the hypotheses of C3, C4, C5.
-- **Secondary endpoint:** the blow-up candidate search, with a preregistered
-  expected count of **zero**, retained so that the gates are exercised and a
-  surprise would be caught.
+The secondary endpoint is retained only so the gates are exercised and a surprise
+would be caught.
 
-A measured logarithmic decay of $\mu_\xi(r)$ on the $\Gamma$-set that strengthens
-as $\nu\to0$ is evidence *for* the depletion mechanism of A16. A measured failure
-of that decay, stable under refinement, would localise where a singularity would
-have to hide. Either outcome is publishable; "no candidate found" is not.
+A measured $\delta$ that stays below the A13 threshold and strengthens as
+$\nu\to0$ is evidence for the depletion mechanism. A measured failure, stable
+under refinement, localises where a singularity would have to hide. Either is
+publishable; "no candidate found" is not.
 
----
+**Note on this correction.** The withdrawn claim was not a slip of exposition: it
+was a wrong scale propagated into a resolution budget, a campaign design and a
+stated conclusion, and it was caught only by verifying the citation it came from.
+That is the argument for `prereg/FREEZE_BLOCKERS.md` being worked through before
+any GPU time is spent.
 
 ## §7. Honest conclusion
 

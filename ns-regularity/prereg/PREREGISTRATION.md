@@ -30,7 +30,9 @@ reported as such. It is preregistered so that a surprise cannot be dismissed.
 
 ### H2 — sparseness (Theorem C3) — **definition corrected**
 **Prediction:** for every IC and every $t$ in the resolved window, the 95th
-percentile of the per-point 1D sparseness satisfies $\delta_{p95}\le\delta_0$
+percentile of the per-point 1D sparseness, **evaluated at $r\sim R_{\rm an}(t)$,
+the measured radius of spatial analyticity** (not at $\ell_\nu$ — see the second
+correction below), satisfies $\delta_{p95}\le\delta_0$
 **for every one of the six super-level sets
 $\{\omega_i^{\pm}>\lambda\|\omega_i^{\pm}\|_\infty\}$, $i=1,2,3$, $\lambda=1/2$** —
 the reported statistic is the *worst* of the six, since the criterion requires
@@ -43,6 +45,22 @@ gives $\delta_{p95}=0.061$ while the worst component set gives $0.152$ — a fac
 2.5 — so the wrong definition made the configuration look *thinner than it is*
 and would have over-confirmed H2. Found during citation verification, before any
 campaign run.
+
+**Second correction, same source.** A13's scale is the radius of spatial
+analyticity, not $\ell_\nu$. Measured at $64^3$, $R_{\rm an}\approx4$–$7\ell_\nu$
+with $R_{\rm an}/\Delta x\approx3$–$12$, so the theorem's scale is resolved where
+$\ell_\nu$ ($\approx1$ cell) is not. Evaluating at $\ell_\nu$ returned
+$\delta\equiv1.000$ — no information — for every case run before this correction.
+$R_{\rm an}$ is estimated from $E(k)\sim e^{-2R_{\rm an}k}$ and **is only used when
+the fit satisfies $r^2>0.9$**; band-limited initial data has no exponential range
+and the estimator must refuse rather than return a number.
+
+**Caveat fixed in advance:** $R_{\rm an}$ from a global spectral fit is not the
+uniform *local* lower bound the theorem wants. It can only be an over-estimate of
+the local worst case, and for a thinness claim the larger $r$ is not automatically
+the conservative direction. H2 is therefore reported with the measured
+$r/R_{\rm an}$ alongside, and a failure at $r\sim R_{\rm an}$ is not by itself a
+falsification until the local-vs-global gap is bounded.
 **$\delta_0$: still UNSET.** It must be taken from the published threshold of the
 sparseness criterion (A13). Verification confirmed the *form* of the definition
 (min over directions of the occupied fraction of a segment of half-length $r$,

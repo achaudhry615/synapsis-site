@@ -88,12 +88,17 @@ isolated in a single named node (`NS-G01`).
 **Five measurement findings**, each derived rather than assumed, and each of
 which would have silently corrupted the campaign:
 
-1. **$\ell_\nu/\Delta x$ depends only on $k_{\max}\eta$, not on $N$.** The standard
-   DNS criterion $k_{\max}\eta\ge2$ leaves the Theorem-C3 hypothesis *sub-grid*,
-   where $\delta\equiv1$ and carries no information. Confirmed on the $64^3$ runs.
-   Measuring it needs $k_{\max}\eta\sim10$–$20$ — so the geometry measurement and
-   the blow-up search pull $\nu$ in opposite directions by an order of magnitude
-   and **cannot be done by one run**.
+1. **The C3 hypothesis was being measured at the wrong scale, and on the wrong
+   sets.** Citation verification found that Grujić's criterion is stated on the
+   six super-level sets of $\omega_i^{\pm}$ (not $|\omega|$), at a scale
+   comparable to the radius of spatial analyticity $R_{\rm an}$ (not $\ell_\nu$).
+   Both corrections mattered: the wrong sets under-reported $\delta$ by $2.5\times$
+   for a sheet — biased *toward* confirming the hypothesis — and the wrong scale
+   was $4$–$7\times$ too small, which is why $\delta$ came back pinned at $1.000$.
+   With both fixed, $R_{\rm an}/\Delta x\approx11$ and the first informative
+   measurement is $\delta\approx0.3$. An earlier conclusion here — that the
+   geometry needs $k_{\max}\eta\sim10$–$20$ and competes with the blow-up search
+   for the grid — **was built on the wrong scale and is withdrawn**.
 2. **The C5 modulus must be weighted by $\log(L/r)$, not $|\log r|$.** The latter
    vanishes at $r=1$ and inverted the verdict in calibration — reporting a smooth
    field as unbounded and white noise as bounded, in the campaign's primary endpoint.
