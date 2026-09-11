@@ -12,7 +12,8 @@ import numpy as np
 
 
 class NSSolver:
-    def __init__(self, grid, nu, u0, cfl=0.4, dt_max=None, visc_dt_factor=1.0):
+    def __init__(self, grid, nu, u0, cfl=0.4, dt_max=None, visc_dt_factor=0.25,
+                 ramp_steps=8):
         """visc_dt_factor caps dt at visc_dt_factor / (nu k_max^2).
 
         The integrating factor makes the viscous term EXACT, so this cap is not
@@ -24,6 +25,7 @@ class NSSolver:
         self.g, self.nu, self.cfl = grid, float(nu), float(cfl)
         self.dt_max = dt_max
         self.visc_dt_factor = visc_dt_factor
+        self.ramp_steps = int(ramp_steps)
         self.t = 0.0
         self.step_count = 0
         uh = np.stack([grid.fft(c) for c in u0])
@@ -59,6 +61,8 @@ class NSSolver:
             dt = min(dt, self.visc_dt_factor / (self.nu * self.g.kmax**2))
         if self.dt_max is not None:
             dt = min(dt, self.dt_max)
+        if self.ramp_steps > 0 and self.step_count < self.ramp_steps:
+            dt *= (self.step_count + 1) / self.ramp_steps
         return dt
 
     def cfl_number(self, dt):

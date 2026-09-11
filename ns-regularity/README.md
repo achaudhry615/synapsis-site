@@ -68,6 +68,49 @@ code/      runnable reference implementation (numpy); GPU path specified separat
 results/   run outputs (JSONL logs, gate tables)
 ```
 
+## What this repository actually establishes
+
+Nothing about regularity. What it does establish, and what took the work:
+
+**One analytic result (proved, and machine-checked).** Proposition B1: a
+box-dimension hypothesis on the stretching-intense set cannot improve the
+enstrophy bound for *any* codimension. The $D=0$ case reproduces Doering–Gibbon
+exactly, every $D>0$ is strictly worse, and $D\ge1$ — tubes and sheets, i.e.
+every scenario of concern — yields no bound at all. The exponents are verified
+numerically in `validate_pipeline.py` §6. This answers the originating question
+in the negative and is the reason the program was re-anchored on transverse
+thinness and direction regularity.
+
+**Three conditional theorems** (C3, C4, C5), each a correct reduction of
+regularity to a numerically measurable hypothesis, with the gap to a theorem
+isolated in a single named node (`NS-G01`).
+
+**Five measurement findings**, each derived rather than assumed, and each of
+which would have silently corrupted the campaign:
+
+1. **$\ell_\nu/\Delta x$ depends only on $k_{\max}\eta$, not on $N$.** The standard
+   DNS criterion $k_{\max}\eta\ge2$ leaves the Theorem-C3 hypothesis *sub-grid*,
+   where $\delta\equiv1$ and carries no information. Confirmed on the $64^3$ runs.
+   Measuring it needs $k_{\max}\eta\sim10$–$20$ — so the geometry measurement and
+   the blow-up search pull $\nu$ in opposite directions by an order of magnitude
+   and **cannot be done by one run**.
+2. **The C5 modulus must be weighted by $\log(L/r)$, not $|\log r|$.** The latter
+   vanishes at $r=1$ and inverted the verdict in calibration — reporting a smooth
+   field as unbounded and white noise as bounded, in the campaign's primary endpoint.
+3. **Dimension box scales must be fixed in physical units.** Grid-relative ranges
+   make estimates drift by up to 0.83 across a factor-2 refinement; matched
+   physical scales hold them to 0.147.
+4. **The proposed absolute $\Gamma$ thresholds emptied the set for every family**,
+   and would have emptied it soonest for the *most depleted* flows — biasing the
+   campaign against the very effect it exists to measure.
+5. **$D_0$ on a smooth positive field is 3 identically** (full support); it must be
+   computed on a thresholded mask.
+
+**A validated implementation.** 33/33 pipeline checks, 13/13 unit tests. The
+sharpest check: ABC flow is Beltrami ($\nabla\times u=u$), so $u\times\omega\equiv0$
+and $u(t)=u_0e^{-\nu t}$ is an *exact* solution of the full equations — the solver
+reproduces it to $8.3\times10^{-16}$ over 30 RK4 steps.
+
 ## Evidential status of the prior runs
 
 The two Monte-Carlo rounds that motivated this repository (16 cases at 16³–32³;

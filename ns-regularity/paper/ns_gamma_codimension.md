@@ -377,8 +377,15 @@ Measure that instead of $\zeta_p$.
 ### 6.3 What a resolution ladder can and cannot establish
 
 At the resolutions reachable on four GPUs, with $k_{\max}\eta\ge2$ enforced,
-$512^3$ forces $\nu\sim2\text{–}3\times10^{-3}$ and $\mathrm{Re}_\lambda\sim
-100\text{–}200$. **Viscous Navier–Stokes at that viscosity will not blow up.** A
+$512^3$ admits $\nu\approx9\times10^{-5}$ at unit volume-averaged enstrophy
+(computed in `code/scripts/resolution_budget.py`; the figure scales as
+$\eta^2\sqrt{2\Omega_v}$, so it moves with the flow's dissipation rate).
+**Viscous Navier–Stokes at a viscosity a grid of that size can resolve will not
+blow up.** Worse, §4 of `spec/gamma_measurement.md` shows the geometric
+hypotheses are *unmeasurable* at $k_{\max}\eta=2$, and become measurable only at
+$k_{\max}\eta\sim10$–$20$, which at $512^3$ means $\nu\gtrsim2\times10^{-3}$.
+The blow-up search and the geometry measurement therefore pull the viscosity in
+opposite directions by more than an order of magnitude. A
 campaign whose primary endpoint is "find a surviving blow-up candidate" is
 therefore designed to return null regardless of the truth of the conjecture, and
 its null result will again be uninformative.
