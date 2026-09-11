@@ -272,14 +272,33 @@ amplifying flow, including flows known to be globally regular. The measured valu
 $\mathcal R\approx2.857$ is not evidence of anything. The set-restricted
 $\mathcal R_E$ is the informative object, and it is not a restatement of the balance.
 
-### Proposition B3 (the scaling gap in Sobolev language)
+### Proposition B3 (the scaling gap) — **corrected**
 
-Enstrophy dissipation supplies $\int_0^T\!\|\nabla\omega\|_2^2 <\infty$, i.e.
-control of $\omega$ in $L^2_tH^1_x$. Continuation via BKM (A6) requires
-$\|\omega\|_{L^\infty}$, and in 3D $H^s\hookrightarrow L^\infty$ needs $s>3/2$.
-The deficit is exactly one half derivative, uniformly in $\nu$. Every known
-partial result closes a logarithmic fraction of this gap; A14 closes an algebraic
-fraction. None closes it. $\square$
+**An earlier version of this proposition was wrong** and is corrected here. It
+asserted that "enstrophy dissipation supplies $\int_0^T\|\nabla\omega\|_2^2<\infty$,
+i.e. control of $\omega$ in $L^2_tH^1_x$." That is not an a priori statement:
+$\int Y\,dt$ is exactly what is *not* controlled — an enstrophy bound is the
+thing being sought. What the energy identity actually gives is
+
+$$\int_0^T\|\nabla u\|_2^2\,dt=\int_0^T\|\omega\|_2^2\,dt\le \frac{E_0}{\nu},
+\qquad\text{i.e. }\omega\in L^2_tL^2_x\text{ only.}$$
+
+Continuation via BKM (A6) requires $\|\omega\|_{L^\infty}$, and in 3D
+$H^s\hookrightarrow L^\infty$ needs $s>3/2$. **The half-derivative conclusion
+stands; the route to it stated before did not.** $\square$
+
+The cleanest form of the same deficit is a time integral (verified in
+`code/scripts/verify_ledger.py`). Analyticity gives $|\omega|\ge M/2$ on a ball of
+radius $\sim\ell_\nu$, so $\|\omega\|_2^2\gtrsim M^2\ell_\nu^3=\nu^{3/2}M^{1/2}$,
+and therefore
+
+$$\boxed{\;\int_0^{T^*}\!\!M(t)^{1/2}dt\;\lesssim\;E_0\,\nu^{-5/2}\quad\text{a priori},
+\qquad\text{while BKM needs}\quad\int_0^{T^*}\!\!M(t)\,dt<\infty.\;}$$
+
+Under $u_\lambda(x,t)=\lambda u(\lambda x,\lambda^2t)$: $M^{1/2}dt\sim\lambda^{-1}$
+(**supercritical**) while $M\,dt\sim\lambda^{0}$ (**critical**). **The entire
+problem is one factor of $M^{1/2}$ inside a time integral.** Every route in
+Part C and Part E is an attempt to buy that factor.
 
 ### Proposition B4 (dimension is neither necessary nor sufficient for thinness)
 
@@ -424,6 +443,180 @@ falsifiable statement about the flow's geometry that the campaign can test — a
 it is recorded as such, not as a step in a proof.
 
 ---
+
+## §5.5 Part E — retrosynthetic ledger for `NS-G01`
+
+Working backwards from regularity through candidate disconnections. **Nothing
+here is progress toward a proof.** The product is *death certificates*: for each
+sub-lemma, the exact step that fails and the obstruction that kills it. Claims
+marked ✔ are machine-checked in `code/scripts/verify_ledger.py` (11/11).
+
+### E1. Scaling audit — applied first, because it is the cheapest filter
+
+Under $u_\lambda(x,t)=\lambda u(\lambda x,\lambda^2 t)$, a hypothesis $Q$ with
+$Q(u_\lambda)=\lambda^aQ(u)$ is *supercritical* if $a<0$, *critical* if $a=0$,
+*subcritical* if $a>0$.
+
+| hypothesis | $a$ | class | verdict |
+|---|---|---|---|
+| energy $\|u\|_2^2$ | $-1$ | supercritical | the only a priori input |
+| $\int M^{1/2}dt$ | $-1$ | supercritical | a priori ✔ |
+| $\int M\,dt$ (BKM) | $0$ | critical | the target ✔ |
+| **C4**: $[\xi]_{C^\beta}\le C$ | $+\beta$ | **subcritical for every $\beta>0$** | **not a derivable target** |
+| **C3**: $\delta$-sparse at $c\,R_{\rm an}$ | $0$ | critical | admissible |
+| **C5**: $\xi\in\mathrm{bmo}_{1/|\log r|}$ | $0$, with a **log gain** | critical | admissible |
+
+Two consequences the table forces:
+
+1. **C4 is dead as a *derivation* target on scaling grounds alone.** Its Hölder
+   constant carries a fixed length $L_c=C^{-2}$; at the dissipation scale the
+   hypothesis demands $|\Delta\xi|\lesssim(\ell_\nu/L_c)^{1/2}\to0$ — a bound that
+   *strengthens under zoom-in*, which no supercritical input can produce. C4
+   remains perfectly valid as a **reduction**; it is simply not something one
+   derives.
+2. **Only C3 and C5 are scale-admissible**, and C5 is admissible precisely
+   because it asks for a *logarithmic* rather than algebraic gain — the smallest
+   currency that pays the $M^{1/2}$ deficit at the Leray rate
+   $M\gtrsim(T^*-t)^{-1}$.
+
+### E2. Why $\beta=1/2$, settled ✔
+
+With $|D|\le C|y|^\beta$ in Constantin's kernel (A7), interpolation using
+$3/2-\beta$ derivatives and Young give
+
+$$\Omega'\le-\tfrac{\nu}{2}Y+C(\beta,\nu)\,\Omega^{\frac{3+2\beta}{1+2\beta}},
+\qquad \beta=0\to3,\;\; \tfrac14\to\tfrac73,\;\; \tfrac12\to2,\;\; 1\to\tfrac53 .$$
+
+Gronwall closes against the a priori $\int\Omega\,dt\le E_0/2\nu$ **iff the
+exponent is $\le2$, i.e. iff $\beta\ge1/2$.** That is the reason for the
+threshold, and it is a statement about the *consequence*, not the hypothesis —
+consistent with E1(1).
+
+### E3. The alignment ODE, and why "Lemma L" dies pointwise ✔
+
+Exact Lagrangian identity (Euler part; $W\xi=\tfrac12\omega\times\xi=0$ kills the
+rotation term):
+
+$$\frac{D\alpha}{Dt}=-\alpha^2+|P^{\perp}_\xi S\xi|^2-\xi\cdot H\xi+\nu(\cdots),
+\qquad H=\nabla^2p .$$
+
+Write $F=|P^\perp S\xi|^2-\xi\cdot H\xi$. Pure Riccati $D\alpha/Dt\le-\alpha^2$
+would give regularity, so everything is the sign and size of $F-\alpha^2$.
+
+**Death certificate (pointwise version).** For a **Burgers vortex** —
+$S=\mathrm{diag}(-\gamma/2,-\gamma/2,\gamma)$, $\xi=e_z$, $p=-\tfrac12x^\top S^2x$ —
+one has $P^\perp S\xi=0$ and $\xi\cdot H\xi=-\gamma^2=-\alpha^2$, hence
+
+$$F-\alpha^2=0\quad\text{identically.}$$
+
+**The pressure Hessian exactly cancels the Riccati damping in the canonical
+stretched vortex** ✔. Separately, at $t=0$ one may choose smooth data with
+$\xi_0$ not an eigenvector of $S_0$ at the maximum, giving $F-\alpha^2\ge c'M^2$.
+So any scale-invariant pointwise "$F-\alpha^2\le\varepsilon M^2$" is **false for
+generic smooth data**. Only an asymptotic ($t\to T^*$) version survives, and it
+amounts to asserting that the blow-up profile self-organises to be
+Burgers-trivial at the singular point — a statement *about* the singularity, not
+derivable from a priori bounds. **OPEN-HARD.**
+
+**Corollary (why restricted Euler is not evidence).** Replacing $H$ by its
+isotropic part gives the Vieillefosse–Cantwell ODE, which blows up for almost all
+data. Since true NS is regular for the same data on short times, that blow-up is
+an artefact of discarding the deviatoric Hessian $R\otimes R(|\omega|^2/2-|S|^2)$
+— a sign-indefinite Riesz transform of a quadratic, with no Constantin-type
+diagonal cancellation.
+
+### E4. The commutator identity, and the sharp form of "coherence ⇒ regularity"
+
+Since Constantin's kernel vanishes on the diagonal ($\det(\hat y,\xi,\xi)=0$),
+splitting $\xi_k(x+y)|\omega(x+y)|$ about $\xi_k(x)$ annihilates the leading piece
+and leaves a **pure commutator**
+
+$$\alpha=\xi_i\xi_j\,[T_{ijk},\xi_k](|\omega|),\qquad
+\|\alpha\|_{L^p}\le C_p\|\xi\|_{\rm BMO}\|\omega\|_{L^p}
+\;\;\text{(Coifman–Rochberg–Weiss)} .$$
+
+Because $|\xi|=1$ forces $\|\xi\|_{\rm BMO}\le2$ always, the content is entirely
+in *smallness or decay* of the local mean oscillation — which is exactly the
+quantity $\mu_\xi(r)$ that the campaign measures, and exactly C5's hypothesis.
+Running this through the $L^{3/2}$ vorticity balance gives regularity whenever a
+dimensionless **geometric Reynolds number**
+
+$$\mathrm{Re}_\xi:=\|\xi\|_{\rm BMO}\,\|\omega\|_{L^{3/2}}/\nu$$
+
+is small. This is the classical critical small-data theorem with the constant
+replaced by the direction field's oscillation. **As a reduction it is sharp and
+worth stating; as a derivation it dies** — analyticity gives
+$\mathrm{osc}_{\ell_\nu}\xi=O(1)$, not $o(1)$, and the natural energy
+$\iint|\omega|^2|\nabla\xi|^2\le\int Y$ is not a priori bounded (B3).
+
+### E5. Why modulus-of-continuity propagation does not transfer
+
+The direction field obeys a harmonic-map heat flow with transport, cross-diffusion
+and a **zeroth-order forcing**:
+
+$$\partial_t\xi+u\cdot\nabla\xi=P^\perp_\xi S\xi+\nu(\Delta\xi+|\nabla\xi|^2\xi)
++2\nu(\nabla\log|\omega|\cdot\nabla)\xi .$$
+
+Kiselev–Nazarov–Volberg's critical-SQG machinery needs (a) pure transport of the
+quantity carrying the modulus, (b) a maximum principle, (c) *nonlocal*
+dissipation of the same order as the velocity gain. **All three fail here.** At a
+breakthrough pair at separation $r$: forcing $\lesssim M\,\omega(r)$, local
+dissipation $\lesssim\nu\omega(r)/r^2$. Dissipation wins **iff $r\lesssim\ell_\nu$**
+(and only up to $\ell_\nu/|\log\ell_\nu|^{1/2}$ for a log modulus). Above that
+scale the equation is effectively inviscid and moduli grow like
+$\exp\int\|S\|_\infty$ — BKM, circular. Below it, analyticity already gives
+$\mathrm{osc}_r\xi\lesssim r/\ell_\nu$, which is $O(1)$ at $r=\ell_\nu$: **the
+propagated modulus can be no better than its seed, and the seed is $O(1)$.** This
+is Proposition B2 in harmonic-map form.
+
+Sharper still: a scale-invariant profile $|\omega|=|x|^{-2}\Phi(\hat x)$,
+$\xi=\Xi(\hat x)$ has $\mathrm{osc}_{B_r}\xi$ *independent of $r$*. So **C5's
+hypothesis is precisely "the direction field has no scale-invariant angular
+structure at the singular point"** — and deriving it means proving that.
+Elgindi's $C^{1,\alpha}$ Euler blow-up has $\xi=\pm e_\theta$, $O(1)$ oscillation
+on every ball meeting the axis, at every scale.
+
+### E6. The Tao filter
+
+| route | NS-specific structure used | survives averaging? |
+|---|---|---|
+| B1/B2 codimension | none (Hölder, Sobolev, CZ only) | **fails** — consistent with its death |
+| a priori sparseness from energy-level bounds | none | **fails** — so Tao's blow-up is non-sparse, and no derivation from shared bounds can work |
+| E3 alignment ODE | $DA/Dt=-A^2-\nabla^2p$, $W\xi=0$ | passes; dies elsewhere |
+| E4 commutator | $\det(\hat y,\xi,\xi)=0$ — parallel vorticity induces no axial strain | passes; dies elsewhere |
+| E5 modulus propagation | transport–stretching form | passes; dies elsewhere |
+
+**The picture is consistent: every route that fails the filter is already dead by
+exponent count, and every route that passes it dies at the same $O(1)$ unit
+problem at scale $\ell_\nu$ and time $1/M$.** The kernel structure is *necessary*;
+nothing in this ledger makes it *sufficient*.
+
+### E7. Summary and what is *not* established
+
+| sub-lemma | status | dies at |
+|---|---|---|
+| propagation of sparseness | **DEAD** | false for pure diffusion; thinness at $\delta cR_{\rm an}$ demands $\lvert S\rvert/\lvert\omega\rvert\ge(\delta c)^{-2}$, excluding tubes |
+| a priori sparseness closing the gap | **DEAD** as a closable route | Tao filter (modulo a flagged transfer step) |
+| "Lemma L" pointwise | **DEAD** ✔ | Burgers degeneracy + $t=0$ counterexample |
+| "Lemma L" asymptotic | **OPEN-HARD** | no mechanism; $\xi\cdot H\xi$ sign-indefinite, $O(M^2)$ |
+| restricted Euler | **DEAD** | Vieillefosse blow-up is a known artefact |
+| KNV modulus propagation | **DEAD** | order-0 forcing vs local order-2 dissipation; balance only at $\ell_\nu$ |
+| C4 as a derivation target | **DEAD** | subcritical (E1) |
+| commutator route | **DEAD as derivation**, valid as reduction | $\mathrm{osc}_{\ell_\nu}\xi=O(1)$ |
+| Γ-criterion as a theorem | **OPEN-HARD** | $E_\lambda=\emptyset$ gives only $M'\le\lambda M^2$, blow-up-consistent |
+| Lagrangian/Cauchy representation | **DEAD** | needs $\exp\int\|\nabla u\|_\infty$ — circular |
+
+**Not established.** No route was found. Three items are OPEN-HARD and none is
+recommended. The literature items were read only through search summaries
+(arXiv is egress-blocked): in particular arXiv:2609.05720 (Sept 2026), on decay
+of local mean oscillations of the vorticity direction, **is exactly the E5
+sub-lemma and may change its status** — our certificate is derived from the
+equation, not from that paper. The claim that Tao's averaged equation supports
+the same analyticity local theory is plausible but unchecked. The non-vacuity
+window for C3 (whether the analyticity radius already forces a core too fat to be
+$\delta_0$-sparse) is a finite computation with two published constants that we
+could not obtain, and it is the single most valuable next calculation: it would
+determine whether C3 is a genuine criterion or is vacuous for tube-like profiles.
 
 ## §6. Part N — what the numerics can and cannot do
 

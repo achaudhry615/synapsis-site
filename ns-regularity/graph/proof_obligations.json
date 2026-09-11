@@ -175,6 +175,11 @@
           "from": "NS-CH01",
           "relation": "diagnostic_for",
           "note": "Alignment statistics probe the kernel cancellation"
+        },
+        {
+          "from": "NS-E06",
+          "relation": "depends_on",
+          "note": "Uses the vanishing of Constantin's kernel on the diagonal"
         }
       ]
     },
@@ -223,6 +228,11 @@
           "from": "NS-G04",
           "relation": "reduces_to",
           "note": "Conditional theorem by reduction to the Holder-1/2 criterion"
+        },
+        {
+          "from": "NS-E03",
+          "relation": "diagnostic_for",
+          "note": "Explains the published 1/2 threshold by exponent count"
         }
       ]
     },
@@ -499,7 +509,13 @@
       "closes": "",
       "notes": "The scaling gap in Sobolev language",
       "out_edges": [],
-      "in_edges": []
+      "in_edges": [
+        {
+          "from": "NS-E01",
+          "relation": "depends_on",
+          "note": "Cleanest form of the same half-derivative deficit"
+        }
+      ]
     },
     {
       "id": "NS-B04",
@@ -589,6 +605,11 @@
           "from": "NS-FV01",
           "relation": "depends_on",
           "note": "Blocked until a new lemma exists"
+        },
+        {
+          "from": "NS-E10",
+          "relation": "depends_on",
+          "note": "The one surviving analytic direction, not recommended"
         }
       ]
     },
@@ -638,6 +659,11 @@
           "from": "NS-G06",
           "relation": "reduces_to",
           "note": "C5 establishes C3's sparseness hypothesis (A16 step 4); the routes are nested, not parallel"
+        },
+        {
+          "from": "NS-E09",
+          "relation": "tested_by",
+          "note": "Decides whether C3 is vacuous for tube-like profiles"
         }
       ]
     },
@@ -662,7 +688,13 @@
           "note": "Strictly stronger hypothesis than NS-G02"
         }
       ],
-      "in_edges": []
+      "in_edges": [
+        {
+          "from": "NS-E05",
+          "relation": "obstructed_by",
+          "note": "Kills the pointwise form of Conjecture D1's missing lemma"
+        }
+      ]
     },
     {
       "id": "NS-G04",
@@ -690,6 +722,11 @@
           "from": "NS-P04",
           "relation": "tested_by",
           "note": "H4 measures the Holder exponent"
+        },
+        {
+          "from": "NS-E02",
+          "relation": "obstructed_by",
+          "note": "C4 stays a valid reduction but cannot be derived"
         }
       ]
     },
@@ -748,7 +785,23 @@
           "note": "C5 establishes C3's sparseness hypothesis (A16 step 4); the routes are nested, not parallel"
         }
       ],
-      "in_edges": []
+      "in_edges": [
+        {
+          "from": "NS-E06",
+          "relation": "diagnostic_for",
+          "note": "Re_xi is the sharp quantitative form of the C5 hypothesis"
+        },
+        {
+          "from": "NS-E07",
+          "relation": "obstructed_by",
+          "note": "Rules out deriving the C5 hypothesis by modulus propagation"
+        },
+        {
+          "from": "NS-E08",
+          "relation": "depends_on",
+          "note": "Restates C5's hypothesis geometrically"
+        }
+      ]
     },
     {
       "id": "NS-L01",
@@ -1221,22 +1274,203 @@
           "note": "Second independent route to the same conditional theorem"
         }
       ]
+    },
+    {
+      "id": "NS-E01",
+      "title": "Deficit as a time integral: a priori int M^1/2 dt vs BKM int M dt",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work; verified",
+      "measurable_by": "verify_ledger",
+      "closes": "",
+      "notes": "Supercritical vs critical; the whole problem is one factor M^1/2",
+      "out_edges": [
+        {
+          "to": "NS-B03",
+          "relation": "depends_on",
+          "note": "Cleanest form of the same half-derivative deficit"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E02",
+      "title": "Scaling audit: C4 is subcritical hence not a derivable target",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Valid as a reduction; a Holder bound would have to strengthen under zoom-in",
+      "out_edges": [
+        {
+          "to": "NS-G04",
+          "relation": "obstructed_by",
+          "note": "C4 stays a valid reduction but cannot be derived"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E03",
+      "title": "beta=1/2 is the threshold because the exponent (3+2b)/(1+2b) hits 2",
+      "kind": "lemma",
+      "status": "PROVED_ELEMENTARY",
+      "citation": "this work; verified",
+      "measurable_by": "verify_ledger",
+      "closes": "",
+      "notes": "Closure against int Omega dt <= E0/2nu needs exponent <= 2",
+      "out_edges": [
+        {
+          "to": "NS-S09",
+          "relation": "diagnostic_for",
+          "note": "Explains the published 1/2 threshold by exponent count"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E04",
+      "title": "Alignment ODE D(alpha)/Dt = -alpha^2 + |Pperp S xi|^2 - xi.H.xi",
+      "kind": "lemma",
+      "status": "PROVED_ELEMENTARY",
+      "citation": "this work; verified",
+      "measurable_by": "R_H diagnostic",
+      "closes": "",
+      "notes": "W xi = 0 kills the rotation term",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E05",
+      "title": "Burgers degeneracy: pressure Hessian exactly cancels the Riccati damping",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work; verified",
+      "measurable_by": "verify_ledger",
+      "closes": "",
+      "notes": "F - alpha^2 = 0 identically; kills any pointwise scale-invariant Lemma L",
+      "out_edges": [
+        {
+          "to": "NS-G03",
+          "relation": "obstructed_by",
+          "note": "Kills the pointwise form of Conjecture D1's missing lemma"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E06",
+      "title": "Commutator identity alpha = xi_i xi_j [T_ijk, xi_k](|omega|) and the Re_xi reduction",
+      "kind": "lemma",
+      "status": "THEOREM_CONDITIONAL",
+      "citation": "this work from NS-S07 + Coifman-Rochberg-Weiss",
+      "measurable_by": "mu_xi_modulus",
+      "closes": "",
+      "notes": "Sharp form of coherence implies regularity; dies as a derivation since osc is O(1)",
+      "out_edges": [
+        {
+          "to": "NS-S07",
+          "relation": "depends_on",
+          "note": "Uses the vanishing of Constantin's kernel on the diagonal"
+        },
+        {
+          "to": "NS-G06",
+          "relation": "diagnostic_for",
+          "note": "Re_xi is the sharp quantitative form of the C5 hypothesis"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E07",
+      "title": "KNV modulus propagation does not transfer to the direction field",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Order-0 forcing at rate M vs local order-2 dissipation; balance only at ell_nu",
+      "out_edges": [
+        {
+          "to": "NS-G06",
+          "relation": "obstructed_by",
+          "note": "Rules out deriving the C5 hypothesis by modulus propagation"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E08",
+      "title": "C5 hypothesis = no scale-invariant angular structure at the singular point",
+      "kind": "lemma",
+      "status": "PROVED_ELEMENTARY",
+      "citation": "this work",
+      "measurable_by": "mu_xi_modulus",
+      "closes": "",
+      "notes": "Scale-invariant profiles have r-independent oscillation; Elgindi has O(1) at every scale",
+      "out_edges": [
+        {
+          "to": "NS-G06",
+          "relation": "depends_on",
+          "note": "Restates C5's hypothesis geometrically"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E09",
+      "title": "Non-vacuity window for C3 from the analyticity and harmonic-measure constants",
+      "kind": "target",
+      "status": "OPEN_ATTACKABLE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "A finite computation with two published constants; would decide whether C3 is vacuous for tubes",
+      "out_edges": [
+        {
+          "to": "NS-G02",
+          "relation": "tested_by",
+          "note": "Decides whether C3 is vacuous for tube-like profiles"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-E10",
+      "title": "Asymptotic Lemma L: Burgers-triviality of the alignment ODE near T*",
+      "kind": "target",
+      "status": "OPEN_HARD",
+      "citation": "",
+      "measurable_by": "R_H diagnostic",
+      "closes": "",
+      "notes": "No counterexample within NS; a statement about the singularity not derivable a priori",
+      "out_edges": [
+        {
+          "to": "NS-G01",
+          "relation": "depends_on",
+          "note": "The one surviving analytic direction, not recommended"
+        }
+      ],
+      "in_edges": []
     }
   ],
   "summary": {
     "CERTIFIED_STANDARD": 14,
     "CERTIFIED_STANDARD_VERIFY_CITATION": 5,
     "CONTESTED": 1,
-    "NO_GO_PROVEN": 4,
+    "NO_GO_PROVEN": 8,
     "OPEN": 2,
-    "THEOREM_CONDITIONAL": 3,
+    "THEOREM_CONDITIONAL": 4,
     "CONJECTURE": 2,
-    "PROVED_ELEMENTARY": 2,
+    "PROVED_ELEMENTARY": 5,
     "DIAGNOSTIC_ONLY": 3,
     "NUMERICAL_GATE": 14,
     "PREREGISTERED": 5,
     "BLOCKED": 1,
-    "SMOKE_TEST_ONLY": 1
+    "SMOKE_TEST_ONLY": 1,
+    "OPEN_ATTACKABLE": 1,
+    "OPEN_HARD": 1
   },
   "open_problems": [
     "NS-C01",
@@ -1245,6 +1479,7 @@
   "conditional_theorems": [
     "NS-G02",
     "NS-G04",
-    "NS-G06"
+    "NS-G06",
+    "NS-E06"
   ]
 }

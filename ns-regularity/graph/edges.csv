@@ -45,3 +45,13 @@ NS-S20,NS-S14,obstructed_by,Same paper critically examines the scaling-gap reduc
 NS-G01,NS-S14,depends_on,The contested a priori sparseness direction IS NS-G01
 NS-G06,NS-G02,reduces_to,"C5 establishes C3's sparseness hypothesis (A16 step 4); the routes are nested, not parallel"
 NS-S16,NS-S13,depends_on,A16 terminates by invoking the sparseness criterion at the analyticity radius
+NS-E01,NS-B03,depends_on,Cleanest form of the same half-derivative deficit
+NS-E02,NS-G04,obstructed_by,C4 stays a valid reduction but cannot be derived
+NS-E03,NS-S09,diagnostic_for,Explains the published 1/2 threshold by exponent count
+NS-E05,NS-G03,obstructed_by,Kills the pointwise form of Conjecture D1's missing lemma
+NS-E06,NS-S07,depends_on,Uses the vanishing of Constantin's kernel on the diagonal
+NS-E06,NS-G06,diagnostic_for,Re_xi is the sharp quantitative form of the C5 hypothesis
+NS-E07,NS-G06,obstructed_by,Rules out deriving the C5 hypothesis by modulus propagation
+NS-E08,NS-G06,depends_on,Restates C5's hypothesis geometrically
+NS-E09,NS-G02,tested_by,Decides whether C3 is vacuous for tube-like profiles
+NS-E10,NS-G01,depends_on,"The one surviving analytic direction, not recommended"
