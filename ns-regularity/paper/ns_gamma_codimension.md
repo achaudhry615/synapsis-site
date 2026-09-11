@@ -29,6 +29,46 @@ here. It is the Millennium problem in different coordinates.
 
 ---
 
+## §0.1 Which Clay problem this addresses
+
+Fefferman's official statement poses four assertions. With $\nu>0$, $n=3$ and
+$f\equiv0$:
+
+| | statement | domain |
+|---|---|---|
+| (A) | existence and smoothness | $\mathbb R^3$ |
+| **(B)** | **existence and smoothness** | **$\mathbb R^3/\mathbb Z^3$ (periodic)** |
+| (C) | breakdown | $\mathbb R^3$ |
+| **(D)** | **breakdown** | **$\mathbb R^3/\mathbb Z^3$ (periodic)** |
+
+This document works on the **periodic, unforced** case, so the conditional
+theorems of Part C are statements aimed at **(B)**, and the numerical search
+described in Part N is aimed at **(D)**. A proof of any one of the four suffices
+for the prize; nothing here proves any of them.
+
+Two points from the official statement are worth carrying explicitly, because
+both bear on claims made elsewhere in this document.
+
+**On CKN and dimension (A10).** The partial-regularity theorem is stated for the
+*parabolic* analogue of Hausdorff dimension, built from cylinders
+$Q_r=B_r\times I_r$ with $B_r\subset\mathbb R^3$ a ball of radius $r$ and
+$I_r\subset\mathbb R$ an interval of length $r^2$; the conclusion is
+$\mathcal P^1(E)=0$ for the singular set $E$, and in particular $E$ cannot
+contain a space-time curve $\{x=\phi(t)\}$. Fefferman calls it "the best partial
+regularity theorem known so far" and notes "it appears to be very hard to go
+further." This confirms the caveat in A10: $\mathcal P^1$ is a parabolic measure
+of the space-time singular set, **not** a box dimension of a pre-singular
+super-level set, and the two must not be conflated — which is precisely the
+conflation Proposition B4 warns against.
+
+**On method.** The statement closes: *"Standard methods from PDE appear
+inadequate to settle the problem. Instead, we probably need some deep, new
+ideas."* Read alongside Tao's averaged-Navier–Stokes counterexample (A17), which
+makes the same point in a sharper and more specific form — no argument using only
+the energy identity, scaling and abstract harmonic analysis can work — this is
+the reason Part B spends its effort *ruling routes out*. Anything that survives
+must use structure the averaged equation destroys.
+
 ## §1. Setting and notation
 
 On the periodic box $\mathbb{T}^3_L=[0,L)^3$ with kinematic viscosity $\nu>0$,

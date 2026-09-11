@@ -10,6 +10,17 @@ upon**. This is not a formality: Theorems C3 and C5 are reductions *to* these
 statements, so an error in the hypothesis of A13 or A16 propagates directly into
 what we claim to have reduced.
 
+## Primary source obtained in full
+
+- **[VERIFIED — read directly]** Fefferman, C. L. *Existence and smoothness of the
+  Navier–Stokes equation.* Official Clay Mathematics Institute problem statement
+  (with errata). Supplied to this project as a PDF and read in full. Fixes the
+  statements (A)–(D), the growth conditions (4)–(11), the weak-solution
+  formulation (12)–(13), the CKN theorem in its parabolic form, and the
+  bibliography below. Its closing assessment — "Standard methods from PDE appear
+  inadequate to settle the problem. Instead, we probably need some deep, new
+  ideas." — is the reason this project's Part B is devoted to ruling routes out.
+
 ## Foundational
 
 - **[VERIFIED]** Leray, J. (1934). Sur le mouvement d'un liquide visqueux
