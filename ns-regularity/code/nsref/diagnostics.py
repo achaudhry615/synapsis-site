@@ -111,3 +111,27 @@ def cheskidov_shvydkoy_number(grid, uh, nu):
             best = max(best, val)
         q += 1
     return {"cs_number": best, "bands": out}
+
+
+def ic_resolution_check(grid, uh, nu, target=2.0):
+    """Is the INITIAL CONDITION resolved, and if not, what nu would resolve it?
+
+    A broadband initial spectrum puts energy at the grid scale at t = 0, so the
+    run can be under-resolved from the first step and recover later as the flow
+    decays -- the minimum of k_max*eta over the run is at t = 0, not at the end.
+    Discovering that after the run wastes it. Call this BEFORE integrating.
+
+    At fixed initial enstrophy, eps = 2 nu Omega so eta = (nu^2 / 2 Omega)^(1/4),
+    i.e. eta ~ nu^(1/2) and the nu needed for a target k_max*eta is
+
+        nu_required = (target / k_max)^2 * sqrt(2 Omega).
+    """
+    w = np.stack([grid.ifft(c) for c in grid.curl(uh)])
+    Om = 0.5 * float(sum(w[i] ** 2 for i in range(3)).mean())
+    eps = 2.0 * nu * Om
+    eta = (nu**3 / eps) ** 0.25 if eps > 0 else float("inf")
+    kme = float(grid.kmax * eta)
+    nu_req = (target / grid.kmax) ** 2 * np.sqrt(2 * Om)
+    return {"enstrophy_0": Om, "kmax_eta_0": kme, "resolved": kme >= target,
+            "target": target, "nu": nu, "nu_required": float(nu_req),
+            "nu_shortfall_factor": float(nu_req / nu) if nu > 0 else float("inf")}

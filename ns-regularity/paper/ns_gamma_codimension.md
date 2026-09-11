@@ -374,13 +374,37 @@ first step. A broadband initial spectrum puts energy at the grid scale by
 construction, so it is the family most likely to be under-resolved at a given
 $(N,\nu)$, and it is precisely the family whose apparent signal was strongest.
 
-We do not know the viscosity used in the prior runs and therefore cannot assert
-that ADV023 was under-resolved. But the coincidence is the kind that a
-preregistered resolution gate exists to catch, and it should be checked before
-$1.537\times$ growth or $\mathcal R\approx2.857$ from that case is given any
-weight. Under-resolution inflates exactly these diagnostics: aliased energy at
-high $k$ raises $\|\nabla\omega\|$ and the grid-maximum $\|\omega\|_\infty$
-without corresponding physical structure.
+This can be made quantitative. At fixed initial enstrophy $\Omega_0$,
+$\varepsilon=2\nu\Omega_0$ so $\eta=(\nu^2/2\Omega_0)^{1/4}$, and the viscosity
+needed for the *initial condition* to satisfy $k_{\max}\eta\ge2$ is
+$\nu_{\rm req}=(2/k_{\max})^2\sqrt{2\Omega_0}$. Evaluated on our seeded
+broadband IC (`diagnostics.ic_resolution_check`):
+
+| $N$ | 16 | 24 | 32 | 48 | 64 | 128 | 256 |
+|---|---|---|---|---|---|---|---|
+| $\nu_{\rm req}$ | 0.295 | 0.196 | 0.134 | 0.093 | **0.068** | 0.033 | 0.017 |
+
+($\nu_{\rm req}$ falls more slowly than $k_{\max}^{-2}$ because a $-5/3$ initial
+spectrum also carries more enstrophy as more high-$k$ modes are admitted.)
+
+The prior rounds ran this family at $16^3$–$64^3$. Unless they used
+$\nu\gtrsim0.07$ — an order of magnitude above typical DNS values, and a flow so
+viscous that nothing interesting can happen — **the multiscale family was
+under-resolved at every rung of that ladder**, most severely at the $16^3$–$24^3$
+discovery stage where the candidate was selected.
+
+We do not know the viscosity actually used and so do not assert this. But it is
+exactly what a preregistered resolution gate exists to catch, and it should be
+checked before $1.537\times$ growth or $\mathcal R\approx2.857$ from that case is
+given any weight. Under-resolution inflates precisely these diagnostics: energy
+piled at the grid scale raises $\|\nabla\omega\|$ and the grid-maximum
+$\|\omega\|_\infty$ without corresponding physical structure.
+
+Every other family we tested is comfortably resolved at $64^3$ for
+$\nu\in\{0.02,0.05\}$ — the antiparallel tubes need only $\nu_{\rm req}=4\times10^{-4}$.
+The defect is specific to broadband initial spectra, which is why a search
+distribution built on them is the wrong instrument, independently of how
+"adversarial" it looks.
 
 ### 6.2 The multifractal branch is downgraded, not abandoned
 

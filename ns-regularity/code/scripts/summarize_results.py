@@ -43,7 +43,7 @@ def summarize(path):
                   if v["status"] != "NOT_APPLICABLE"]
     npass = sum(1 for k in applicable if gates["gates"][k]["status"] == "PASS")
     return {
-        "case": f"{meta.get('ic')}_N{meta.get('N')}",
+        "case": f"{meta.get('ic')}_N{meta.get('N')}_nu{meta.get('nu')}",
         "nu": meta.get("nu"),
         "growth": max(wmax) / wmax[0],
         "ell_nu_dx": g.get("ell_nu_over_dx", float("nan")),
@@ -66,12 +66,12 @@ def main():
     rows = [r for r in (summarize(p) for p in paths) if r]
     if not rows:
         print("no results found"); return
-    hdr = (f"{'case':<24}{'growth':>8}{'l_nu/dx':>9}{'delta':>7}"
+    hdr = (f"{'case':<30}{'growth':>8}{'l_nu/dx':>9}{'delta':>7}"
            f"{'beta':>6}{'mu_sl':>7}{'C5':>5}{'D_inf':>7}{'R_E':>9}{'R_glob':>8}"
            f"{'model':>14}{'gates':>7}")
     print(hdr); print("-" * len(hdr))
     for r in rows:
-        print(f"{r['case']:<24}{r['growth']:>8.4f}{r['ell_nu_dx']:>9.2f}"
+        print(f"{r['case']:<30}{r['growth']:>8.4f}{r['ell_nu_dx']:>9.2f}"
               f"{r['delta']:>7.3f}{r['beta']:>6.2f}{r['mu_slope']:>7.2f}"
               f"{r['c5_bounded']:>5}{r['D_inf']:>7.2f}{r['R_E']:>9.4f}"
               f"{r['R_global']:>8.3f}{str(r['preferred']):>14}{r['gates']:>7}")

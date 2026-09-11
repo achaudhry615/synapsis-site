@@ -47,7 +47,11 @@ not the true dimension.
 
 ### H4 — direction regularity (Theorem C4)
 **Prediction:** $\beta\ge0.5$ on a neighbourhood of $E_\lambda$.
-**Falsified by:** $\beta<0.5$ with CI excluding 0.5 at two consecutive $N$.
+**Falsified by:** $\beta<0.5$ with CI excluding 0.5 at two consecutive $N$,
+**and only in runs where `HIGH_K_TAIL_RESOLVED` passes.** Under-resolution drives
+$\beta$ to the white-noise value $\approx0$ (measured: 0.06 at $k_{\max}\eta=0.77$),
+so an unresolved run can appear to falsify H4 spuriously. This condition is fixed
+here in advance precisely so that it cannot be invoked selectively afterwards.
 **Caveat fixed in advance:** the estimator is biased low by ~10% (it returns 0.90
 on a field whose true $\beta$ is 1). A measured 0.45 is therefore *not* a
 falsification; the bias-corrected comparison is preregistered here.

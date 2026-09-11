@@ -80,6 +80,15 @@ def main():
     t0 = time.time()
     isnap = 0
     print(f"# {tag}: dx={g.dx:.4f}  kmax={g.kmax:.0f}  initial kmax*eta={prev['kmax_eta']:.2f}")
+    rc = dg.ic_resolution_check(g, s.vh, a.nu)
+    log.write({"record": "ic_resolution_check", **rc})
+    if not rc["resolved"]:
+        print(f"# WARNING: initial condition is UNDER-RESOLVED. "
+              f"kmax*eta(t=0)={rc['kmax_eta_0']:.2f} < {rc['target']}; "
+              f"nu={a.nu:g} but nu_required={rc['nu_required']:.4f} "
+              f"({rc['nu_shortfall_factor']:.2f}x short).")
+        print("#          HIGH_K_TAIL_RESOLVED will fail. The run proceeds so the")
+        print("#          gate is exercised, but its diagnostics are not trustworthy.")
 
     bprev = dg.budget_terms(g, s.vh, a.nu)
     while s.t < a.tend:

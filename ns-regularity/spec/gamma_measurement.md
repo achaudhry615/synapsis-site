@@ -219,6 +219,23 @@ lower end of the scaling range tracks $\Delta x$; $D_\infty\to0$ because the
 maximum sits in a single cell (check against the spectrally-refined maximum); or
 $\delta$ changes when $r$ crosses a few $\Delta x$.
 
+**Under-resolution drives $\beta\to0$, the white-noise value.** Measured on the
+broadband IC at $32^3$ with $\nu=0.02$ ($k_{\max}\eta=0.77$, a factor 6.7 short of
+resolved): $\beta=0.06$–$0.09$. Taken at face value that is a catastrophic
+violation of the Theorem C4 hypothesis $\beta\ge1/2$; it is entirely a numerical
+artefact, because an under-resolved direction field *is* noise at the grid scale.
+**Any measured $\beta$ below $0.5$ must be checked against $k_{\max}\eta$ before it
+is interpreted**, and the preregistration's H4 falsification condition is
+conditional on the resolution gate passing. The same caution applies to
+$\mu_\xi$, whose log-log slope has the same white-noise limit.
+
+`diagnostics.ic_resolution_check` reports $k_{\max}\eta$ at $t=0$ and the
+viscosity that would be required, and `run_campaign.py` prints a warning before
+integrating. The check belongs *before* the run: for a broadband initial spectrum
+the minimum of $k_{\max}\eta$ over the whole run is at $t=0$, and the flow becomes
+better resolved as it decays — so a run can be corrupt from the first step and
+look fine at the end.
+
 ## 7. Uncertainty
 
 Spatial CI by bootstrap over the 8 (or 64) sub-cubes; temporal CI by bootstrap
