@@ -1,0 +1,42 @@
+src,dst,relation,note
+NS-S03,NS-S01,depends_on,Enstrophy balance uses the energy framework
+NS-S04,NS-S03,depends_on,Bound derived from the balance
+NS-S04,NS-S05,depends_on,Uses Calderon-Zygmund
+NS-S09,NS-S08,depends_on,Refines Constantin-Fefferman to Holder 1/2
+NS-S08,NS-S07,depends_on,Uses the singular-integral kernel bound
+NS-S16,NS-S07,depends_on,Recasts the stretching eigenvalue as a commutator
+NS-S14,NS-S13,depends_on,Algebraic reduction built on the sparseness framework
+NS-B01,NS-S05,depends_on,Holder-Sobolev chain uses CZ bounds
+NS-B01,NS-S04,obstructed_by,Resulting exponent is worse than the textbook bound
+NS-B02,NS-S03,depends_on,Balance at the dissipation scale
+NS-B04,NS-B01,depends_on,Explains why dimension is the wrong hypothesis
+NS-G02,NS-S13,reduces_to,Conditional theorem by reduction to the sparseness criterion
+NS-G02,NS-L01,depends_on,Transverse thinness supplies the sparseness hypothesis
+NS-G04,NS-S09,reduces_to,Conditional theorem by reduction to the Holder-1/2 criterion
+NS-G06,NS-S16,reduces_to,Conditional theorem by reduction to log-bmo depletion
+NS-G03,NS-L02,depends_on,Gamma-sets embed in omega-sets
+NS-G03,NS-G02,depends_on,Strictly stronger hypothesis than NS-G02
+NS-G05,NS-B02,obstructed_by,A depletion exponent alone does not close the enstrophy route
+NS-G02,NS-C01,would_close,Only if NS-G01 supplies the hypothesis from the equations
+NS-G04,NS-C01,would_close,Only if NS-G01 supplies the hypothesis from the equations
+NS-G06,NS-C01,would_close,Only if NS-G01 supplies the hypothesis from the equations
+NS-G01,NS-C01,would_close,The actual open problem
+NS-C01,NS-S17,obstructed_by,Tao: no purely abstract energy-plus-scaling proof can work
+NS-G01,NS-S17,obstructed_by,Mechanism must be kernel-specific
+NS-B01,NS-S10,depends_on,CKN dimension is a different object; see note
+NS-F01,NS-F02,superseded_by,zeta_p has no theorem behind it; the CS number does
+NS-F02,NS-S15,diagnostic_for,Measurable proxy for the Besov criterion
+NS-CH01,NS-S07,diagnostic_for,Alignment statistics probe the kernel cancellation
+NS-P02,NS-G02,tested_by,H2 measures the sparseness hypothesis
+NS-P03,NS-G05,tested_by,H3 measures concentration
+NS-P04,NS-G04,tested_by,H4 measures the Holder exponent
+NS-P05,NS-G05,tested_by,H5 measures the depletion trend
+NS-P01,NS-N09,tested_by,Null search governed by the fit-stability gate
+NS-N01,NS-P01,depends_on,Gate feeds the candidate definition
+NS-N02,NS-S01,diagnostic_for,Energy identity is the residual being checked
+NS-N03,NS-P01,depends_on,Resolution gate bounds the admissible fit window
+NS-N09,NS-S12,depends_on,Leray lower bound constrains alpha
+NS-N11,NS-S06,diagnostic_for,BKM forces alpha >= 1
+NS-N12,NS-S11,diagnostic_for,ESS forces L3 blowup
+NS-FV01,NS-G01,depends_on,Blocked until a new lemma exists
+NS-X01,NS-P01,superseded_by,Prior rounds replaced by the preregistered campaign

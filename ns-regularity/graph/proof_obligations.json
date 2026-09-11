@@ -1,0 +1,1184 @@
+{
+  "schema": "ns-regularity/proof-obligation-graph/v1",
+  "disclaimer": "3D Navier-Stokes global regularity is OPEN. No node in this graph is a proof of it. Status values are descriptive bookkeeping, not claims of resolution.",
+  "status_vocabulary": {
+    "CERTIFIED_STANDARD": "published mathematics, cited, not our contribution",
+    "CERTIFIED_STANDARD_VERIFY_CITATION": "as above but the exact hypotheses/constants were not verifiable from this runtime",
+    "PROVED_ELEMENTARY": "proved here; elementary",
+    "NO_GO_PROVEN": "proved here that this route cannot close",
+    "THEOREM_CONDITIONAL": "proved here by reduction; hypothesis unproved",
+    "CONJECTURE": "stated so it can be false; not assumed anywhere",
+    "OPEN": "no path proposed",
+    "DIAGNOSTIC_ONLY": "measurable, but no theorem connects it to regularity",
+    "NUMERICAL_GATE": "preregistered pass/fail criterion",
+    "PREREGISTERED": "falsifiable hypothesis fixed before the campaign",
+    "BLOCKED": "cannot proceed until a prerequisite changes status",
+    "SMOKE_TEST_ONLY": "pipeline validation; carries no evidential weight"
+  },
+  "nodes": [
+    {
+      "id": "NS-S01",
+      "title": "Leray energy identity",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Leray 1934",
+      "measurable_by": "ENERGY_BALANCE_CONSISTENT",
+      "closes": "",
+      "notes": "Basis of all a priori control",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-S03",
+          "relation": "depends_on",
+          "note": "Enstrophy balance uses the energy framework"
+        },
+        {
+          "from": "NS-N02",
+          "relation": "diagnostic_for",
+          "note": "Energy identity is the residual being checked"
+        }
+      ]
+    },
+    {
+      "id": "NS-S02",
+      "title": "Vorticity equation and D|omega|/Dt = alpha|omega| + nu xi.Laplacian(omega)",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "textbook",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Defines alpha = xi.S.xi",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-S03",
+      "title": "Enstrophy balance Omega' = int(omega.S.omega) - nu||grad omega||^2",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "textbook",
+      "measurable_by": "budget_residual",
+      "closes": "",
+      "notes": "Exact identity; the balance the program turns on",
+      "out_edges": [
+        {
+          "to": "NS-S01",
+          "relation": "depends_on",
+          "note": "Enstrophy balance uses the energy framework"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-S04",
+          "relation": "depends_on",
+          "note": "Bound derived from the balance"
+        },
+        {
+          "from": "NS-B02",
+          "relation": "depends_on",
+          "note": "Balance at the dissipation scale"
+        }
+      ]
+    },
+    {
+      "id": "NS-S04",
+      "title": "Supercritical bound Omega' <= C Omega^3 / nu^3",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Doering-Gibbon 1995",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Instantaneous sharpness shown by Lu-Doering 2008",
+      "out_edges": [
+        {
+          "to": "NS-S03",
+          "relation": "depends_on",
+          "note": "Bound derived from the balance"
+        },
+        {
+          "to": "NS-S05",
+          "relation": "depends_on",
+          "note": "Uses Calderon-Zygmund"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-B01",
+          "relation": "obstructed_by",
+          "note": "Resulting exponent is worse than the textbook bound"
+        }
+      ]
+    },
+    {
+      "id": "NS-S05",
+      "title": "Calderon-Zygmund ||S||_p <= C_p ||omega||_p and the log-loss at p=infinity",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Calderon-Zygmund; BKM 1984",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Source of Lemma C3",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-S04",
+          "relation": "depends_on",
+          "note": "Uses Calderon-Zygmund"
+        },
+        {
+          "from": "NS-B01",
+          "relation": "depends_on",
+          "note": "Holder-Sobolev chain uses CZ bounds"
+        }
+      ]
+    },
+    {
+      "id": "NS-S06",
+      "title": "Beale-Kato-Majda criterion",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Beale-Kato-Majda 1984",
+      "measurable_by": "omega_max_timeseries",
+      "closes": "",
+      "notes": "Forces fitted alpha >= 1",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-N11",
+          "relation": "diagnostic_for",
+          "note": "BKM forces alpha >= 1"
+        }
+      ]
+    },
+    {
+      "id": "NS-S07",
+      "title": "Constantin singular-integral representation of alpha with kernel D(yhat; xi; xi_prime)",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Constantin 1994",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "|D| <= |sin angle|; the geometric depletion mechanism",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-S08",
+          "relation": "depends_on",
+          "note": "Uses the singular-integral kernel bound"
+        },
+        {
+          "from": "NS-S16",
+          "relation": "depends_on",
+          "note": "Recasts the stretching eigenvalue as a commutator"
+        },
+        {
+          "from": "NS-CH01",
+          "relation": "diagnostic_for",
+          "note": "Alignment statistics probe the kernel cancellation"
+        }
+      ]
+    },
+    {
+      "id": "NS-S08",
+      "title": "Constantin-Fefferman direction-regularity criterion",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Constantin-Fefferman 1993",
+      "measurable_by": "beta_holder_xi",
+      "closes": "",
+      "notes": "Lipschitz xi on high-vorticity region implies regularity",
+      "out_edges": [
+        {
+          "to": "NS-S07",
+          "relation": "depends_on",
+          "note": "Uses the singular-integral kernel bound"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-S09",
+          "relation": "depends_on",
+          "note": "Refines Constantin-Fefferman to Holder 1/2"
+        }
+      ]
+    },
+    {
+      "id": "NS-S09",
+      "title": "Beirao da Veiga-Berselli Holder-1/2 refinement",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Beirao da Veiga-Berselli Diff Int Eq 15 (2002) 345-356",
+      "measurable_by": "beta_holder_xi",
+      "closes": "",
+      "notes": "beta = 1/2 is scale-critical; the only genuine exponent threshold in the program",
+      "out_edges": [
+        {
+          "to": "NS-S08",
+          "relation": "depends_on",
+          "note": "Refines Constantin-Fefferman to Holder 1/2"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-G04",
+          "relation": "reduces_to",
+          "note": "Conditional theorem by reduction to the Holder-1/2 criterion"
+        }
+      ]
+    },
+    {
+      "id": "NS-S10",
+      "title": "Caffarelli-Kohn-Nirenberg partial regularity P^1(Sigma)=0",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "CKN 1982; Lin 1998",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Parabolic dimension of space-time singular set; NOT the same object as D_j",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-B01",
+          "relation": "depends_on",
+          "note": "CKN dimension is a different object; see note"
+        }
+      ]
+    },
+    {
+      "id": "NS-S11",
+      "title": "Ladyzhenskaya-Prodi-Serrin and Escauriaza-Seregin-Sverak L^infty_t L^3_x",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "ESS 2003; Seregin 2012",
+      "measurable_by": "L3_norm_timeseries",
+      "closes": "",
+      "notes": "||u(t)||_3 must blow up at a singularity",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-N12",
+          "relation": "diagnostic_for",
+          "note": "ESS forces L3 blowup"
+        }
+      ]
+    },
+    {
+      "id": "NS-S12",
+      "title": "Leray lower bound ||omega(t)||_infty >= c/(T*-t)",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Leray 1934",
+      "measurable_by": "fit_alpha",
+      "closes": "",
+      "notes": "Constrains admissible power-law fits",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-N09",
+          "relation": "depends_on",
+          "note": "Leray lower bound constrains alpha"
+        }
+      ]
+    },
+    {
+      "id": "NS-S13",
+      "title": "Grujic 1D sparseness regularity criterion via harmonic measure maximum principle",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Grujic 2013 (arXiv 1111.0217)",
+      "measurable_by": "sparseness_delta",
+      "closes": "",
+      "notes": "Sparseness at scale comparable to radius of spatial analyticity prevents blowup",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-S14",
+          "relation": "depends_on",
+          "note": "Algebraic reduction built on the sparseness framework"
+        },
+        {
+          "from": "NS-G02",
+          "relation": "reduces_to",
+          "note": "Conditional theorem by reduction to the sparseness criterion"
+        }
+      ]
+    },
+    {
+      "id": "NS-S14",
+      "title": "Bradshaw-Farhat-Grujic algebraic reduction of the scaling gap",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Bradshaw-Farhat-Grujic ARMA 2019",
+      "measurable_by": "sparseness_delta",
+      "closes": "",
+      "notes": "First non-logarithmic reduction of NS supercriticality since the 1960s",
+      "out_edges": [
+        {
+          "to": "NS-S13",
+          "relation": "depends_on",
+          "note": "Algebraic reduction built on the sparseness framework"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-S15",
+      "title": "Cheskidov-Shvydkoy Besov B^{-1}_{inf;inf} regularity criteria",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Cheskidov-Shvydkoy 2010/2014",
+      "measurable_by": "cs_number",
+      "closes": "",
+      "notes": "The only rigorous bridge from spectral data to a regularity theorem",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-F02",
+          "relation": "diagnostic_for",
+          "note": "Measurable proxy for the Besov criterion"
+        }
+      ]
+    },
+    {
+      "id": "NS-S16",
+      "title": "Grujic log-weighted bmo depletion of vortex stretching",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Grujic arXiv 2607.08866 (2026)",
+      "measurable_by": "mu_xi_modulus",
+      "closes": "",
+      "notes": "Direction in bmo_{1/|log r|} depletes stretching; weaker than Holder and measurable",
+      "out_edges": [
+        {
+          "to": "NS-S07",
+          "relation": "depends_on",
+          "note": "Recasts the stretching eigenvalue as a commutator"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-G06",
+          "relation": "reduces_to",
+          "note": "Conditional theorem by reduction to log-bmo depletion"
+        }
+      ]
+    },
+    {
+      "id": "NS-S17",
+      "title": "Tao averaged Navier-Stokes blowup",
+      "kind": "obstruction",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Tao 2016",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Any proof must use kernel structure; consistent with an alignment-depletion route",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-C01",
+          "relation": "obstructed_by",
+          "note": "Tao: no purely abstract energy-plus-scaling proof can work"
+        },
+        {
+          "from": "NS-G01",
+          "relation": "obstructed_by",
+          "note": "Mechanism must be kernel-specific"
+        }
+      ]
+    },
+    {
+      "id": "NS-S18",
+      "title": "Elgindi C^{1;alpha} Euler blowup",
+      "kind": "obstruction",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Elgindi 2021",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Euler blowup exists at low regularity",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-S19",
+      "title": "Chen-Hou computer-assisted 3D Euler blowup with boundary",
+      "kind": "obstruction",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Chen-Hou; PNAS 2025",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Boundary case; does not settle the periodic viscous problem",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-B01",
+      "title": "No-go: box-dimension hypothesis cannot improve the enstrophy bound",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Exponent (3-D)/(1-D) is worse than 3 for all D<1 and vacuous for D>=1",
+      "out_edges": [
+        {
+          "to": "NS-S05",
+          "relation": "depends_on",
+          "note": "Holder-Sobolev chain uses CZ bounds"
+        },
+        {
+          "to": "NS-S04",
+          "relation": "obstructed_by",
+          "note": "Resulting exponent is worse than the textbook bound"
+        },
+        {
+          "to": "NS-S10",
+          "relation": "depends_on",
+          "note": "CKN dimension is a different object; see note"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-B04",
+          "relation": "depends_on",
+          "note": "Explains why dimension is the wrong hypothesis"
+        }
+      ]
+    },
+    {
+      "id": "NS-B02",
+      "title": "No-go: volume of the concentration set cancels in the dissipation-scale balance",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work",
+      "measurable_by": "R_E",
+      "closes": "",
+      "notes": "Decisive object is the O(1) ratio R_E not a dimension",
+      "out_edges": [
+        {
+          "to": "NS-S03",
+          "relation": "depends_on",
+          "note": "Balance at the dissipation scale"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-G05",
+          "relation": "obstructed_by",
+          "note": "A depletion exponent alone does not close the enstrophy route"
+        }
+      ]
+    },
+    {
+      "id": "NS-B03",
+      "title": "No-go: enstrophy dissipation gives H^1 but ||omega||_infty needs H^{3/2+}",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "The scaling gap in Sobolev language",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-B04",
+      "title": "Caveat: small box-counting volume does not imply transverse thinness",
+      "kind": "nogo",
+      "status": "NO_GO_PROVEN",
+      "citation": "this work",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Fat-Cantor counterexample; a D=1 tube IS transversally thin",
+      "out_edges": [
+        {
+          "to": "NS-B01",
+          "relation": "depends_on",
+          "note": "Explains why dimension is the wrong hypothesis"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-C01",
+      "title": "Scale-critical regularity closure",
+      "kind": "target",
+      "status": "OPEN",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "The Millennium-hard node; no path proposed here",
+      "out_edges": [
+        {
+          "to": "NS-S17",
+          "relation": "obstructed_by",
+          "note": "Tao: no purely abstract energy-plus-scaling proof can work"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-G02",
+          "relation": "would_close",
+          "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        },
+        {
+          "from": "NS-G04",
+          "relation": "would_close",
+          "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        },
+        {
+          "from": "NS-G06",
+          "relation": "would_close",
+          "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        },
+        {
+          "from": "NS-G01",
+          "relation": "would_close",
+          "note": "The actual open problem"
+        }
+      ]
+    },
+    {
+      "id": "NS-G01",
+      "title": "Derivation of a depletion inequality from the equations",
+      "kind": "target",
+      "status": "OPEN",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "NS-C01",
+      "notes": "Millennium-hard; this is the real gap",
+      "out_edges": [
+        {
+          "to": "NS-C01",
+          "relation": "would_close",
+          "note": "The actual open problem"
+        },
+        {
+          "to": "NS-S17",
+          "relation": "obstructed_by",
+          "note": "Mechanism must be kernel-specific"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-FV01",
+          "relation": "depends_on",
+          "note": "Blocked until a new lemma exists"
+        }
+      ]
+    },
+    {
+      "id": "NS-G02",
+      "title": "Conditional theorem: Gamma-set transverse thinness implies regularity",
+      "kind": "conditional",
+      "status": "THEOREM_CONDITIONAL",
+      "citation": "this work by reduction to NS-S13",
+      "measurable_by": "sparseness_delta",
+      "closes": "NS-C01 given NS-G01",
+      "notes": "Proved by reduction; hypothesis unproved",
+      "out_edges": [
+        {
+          "to": "NS-S13",
+          "relation": "reduces_to",
+          "note": "Conditional theorem by reduction to the sparseness criterion"
+        },
+        {
+          "to": "NS-L01",
+          "relation": "depends_on",
+          "note": "Transverse thinness supplies the sparseness hypothesis"
+        },
+        {
+          "to": "NS-C01",
+          "relation": "would_close",
+          "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-G03",
+          "relation": "depends_on",
+          "note": "Strictly stronger hypothesis than NS-G02"
+        },
+        {
+          "from": "NS-P02",
+          "relation": "tested_by",
+          "note": "H2 measures the sparseness hypothesis"
+        }
+      ]
+    },
+    {
+      "id": "NS-G03",
+      "title": "Conjecture: Gamma-sparseness suffices (strictly stronger than omega-sparseness)",
+      "kind": "conjecture",
+      "status": "CONJECTURE",
+      "citation": "this work",
+      "measurable_by": "sparseness_delta_gamma",
+      "closes": "",
+      "notes": "Missing Lemma L: alignment rate control on Omega_lambda minus E_lambda",
+      "out_edges": [
+        {
+          "to": "NS-L02",
+          "relation": "depends_on",
+          "note": "Gamma-sets embed in omega-sets"
+        },
+        {
+          "to": "NS-G02",
+          "relation": "depends_on",
+          "note": "Strictly stronger hypothesis than NS-G02"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-G04",
+      "title": "Conditional theorem: direction regularity beta >= 1/2 on the Gamma-set implies regularity",
+      "kind": "conditional",
+      "status": "THEOREM_CONDITIONAL",
+      "citation": "this work by reduction to NS-S09",
+      "measurable_by": "beta_holder_xi",
+      "closes": "NS-C01 given NS-G01",
+      "notes": "theta_c = 1/2 lives here and nowhere else",
+      "out_edges": [
+        {
+          "to": "NS-S09",
+          "relation": "reduces_to",
+          "note": "Conditional theorem by reduction to the Holder-1/2 criterion"
+        },
+        {
+          "to": "NS-C01",
+          "relation": "would_close",
+          "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-P04",
+          "relation": "tested_by",
+          "note": "H4 measures the Holder exponent"
+        }
+      ]
+    },
+    {
+      "id": "NS-G05",
+      "title": "Conjecture: depletion exponent rho(l_nu) <= C (l_nu/L)^theta",
+      "kind": "conjecture",
+      "status": "CONJECTURE",
+      "citation": "this work",
+      "measurable_by": "rho_depletion",
+      "closes": "",
+      "notes": "Does NOT close the enstrophy route even if true; diagnostic prediction only",
+      "out_edges": [
+        {
+          "to": "NS-B02",
+          "relation": "obstructed_by",
+          "note": "A depletion exponent alone does not close the enstrophy route"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-P03",
+          "relation": "tested_by",
+          "note": "H3 measures concentration"
+        },
+        {
+          "from": "NS-P05",
+          "relation": "tested_by",
+          "note": "H5 measures the depletion trend"
+        }
+      ]
+    },
+    {
+      "id": "NS-G06",
+      "title": "Conditional theorem: log-modulus mean-oscillation control of xi on the Gamma-set",
+      "kind": "conditional",
+      "status": "THEOREM_CONDITIONAL",
+      "citation": "this work by reduction to NS-S16",
+      "measurable_by": "mu_xi_modulus",
+      "closes": "NS-C01 given NS-G01",
+      "notes": "Weakest measurable hypothesis with a published sufficient condition behind it",
+      "out_edges": [
+        {
+          "to": "NS-S16",
+          "relation": "reduces_to",
+          "note": "Conditional theorem by reduction to log-bmo depletion"
+        },
+        {
+          "to": "NS-C01",
+          "relation": "would_close",
+          "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-L01",
+      "title": "Lemma: transverse thinness implies 1D sparseness",
+      "kind": "lemma",
+      "status": "PROVED_ELEMENTARY",
+      "citation": "this work",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Trivial but it is the object actually measured",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-G02",
+          "relation": "depends_on",
+          "note": "Transverse thinness supplies the sparseness hypothesis"
+        }
+      ]
+    },
+    {
+      "id": "NS-L02",
+      "title": "Lemma: Gamma-superlevel sets embed in omega-superlevel sets with square-root threshold loss",
+      "kind": "lemma",
+      "status": "PROVED_ELEMENTARY",
+      "citation": "this work via NS-S05",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "E_lambda subset Omega_{sqrt(lambda/C_log)}",
+      "out_edges": [],
+      "in_edges": [
+        {
+          "from": "NS-G03",
+          "relation": "depends_on",
+          "note": "Gamma-sets embed in omega-sets"
+        }
+      ]
+    },
+    {
+      "id": "NS-F01",
+      "title": "Multifractal codimension bridge",
+      "kind": "diagnostic",
+      "status": "DIAGNOSTIC_ONLY",
+      "citation": "",
+      "measurable_by": "zeta_p",
+      "closes": "",
+      "notes": "Downgraded: no theorem connects zeta_p to regularity",
+      "out_edges": [
+        {
+          "to": "NS-F02",
+          "relation": "superseded_by",
+          "note": "zeta_p has no theorem behind it; the CS number does"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-F02",
+      "title": "Cheskidov-Shvydkoy number over the dissipation range",
+      "kind": "diagnostic",
+      "status": "DIAGNOSTIC_ONLY",
+      "citation": "NS-S15",
+      "measurable_by": "cs_number",
+      "closes": "",
+      "notes": "Replaces NS-F01; has a theorem behind it",
+      "out_edges": [
+        {
+          "to": "NS-S15",
+          "relation": "diagnostic_for",
+          "note": "Measurable proxy for the Besov criterion"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-F01",
+          "relation": "superseded_by",
+          "note": "zeta_p has no theorem behind it; the CS number does"
+        }
+      ]
+    },
+    {
+      "id": "NS-CH01",
+      "title": "FTLE / alignment mechanism",
+      "kind": "diagnostic",
+      "status": "DIAGNOSTIC_ONLY",
+      "citation": "",
+      "measurable_by": "ftle;alignment_pdf",
+      "closes": "",
+      "notes": "Lagrangian chaos is not a singularity criterion",
+      "out_edges": [
+        {
+          "to": "NS-S07",
+          "relation": "diagnostic_for",
+          "note": "Alignment statistics probe the kernel cancellation"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N01",
+      "title": "CFL_STABLE",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "see prereg/gates.json",
+      "out_edges": [
+        {
+          "to": "NS-P01",
+          "relation": "depends_on",
+          "note": "Gate feeds the candidate definition"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N02",
+      "title": "ENERGY_BALANCE_CONSISTENT",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "see prereg/gates.json",
+      "out_edges": [
+        {
+          "to": "NS-S01",
+          "relation": "diagnostic_for",
+          "note": "Energy identity is the residual being checked"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N03",
+      "title": "HIGH_K_TAIL_RESOLVED",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "k_max*eta >= 2",
+      "out_edges": [
+        {
+          "to": "NS-P01",
+          "relation": "depends_on",
+          "note": "Resolution gate bounds the admissible fit window"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N04",
+      "title": "DEALIASING_ACTIVE",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "asserted every step",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N05",
+      "title": "TIME_STEP_CONVERGED",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "dt vs dt/2",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N06",
+      "title": "SPATIAL_REFINEMENT_CONVERGED",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "N vs 2N at fixed nu",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N07",
+      "title": "PRECISION_ESCALATION_CONSISTENT",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "FP32 vs FP64",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N08",
+      "title": "DOMAIN_SIZE_CONSISTENT",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "L = 2pi vs 4pi",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N09",
+      "title": "SINGULAR_TIME_FIT_STABLE",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "see spec/model_selection.md",
+      "out_edges": [
+        {
+          "to": "NS-S12",
+          "relation": "depends_on",
+          "note": "Leray lower bound constrains alpha"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-P01",
+          "relation": "tested_by",
+          "note": "Null search governed by the fit-stability gate"
+        }
+      ]
+    },
+    {
+      "id": "NS-N10",
+      "title": "MULTIPLE_SOLVERS_AGREE",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "independent second solver",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N11",
+      "title": "BKM_CONSISTENT",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "NS-S06",
+      "measurable_by": "fit_alpha",
+      "closes": "",
+      "notes": "alpha >= 1 with CI",
+      "out_edges": [
+        {
+          "to": "NS-S06",
+          "relation": "diagnostic_for",
+          "note": "BKM forces alpha >= 1"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N12",
+      "title": "L3_GROWTH",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "NS-S11",
+      "measurable_by": "L3_norm_timeseries",
+      "closes": "",
+      "notes": "||u||_3 increasing over the fit window",
+      "out_edges": [
+        {
+          "to": "NS-S11",
+          "relation": "diagnostic_for",
+          "note": "ESS forces L3 blowup"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N13",
+      "title": "SYMMETRY_PRESERVED",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "for TG and Kida-Pelz initial data",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-N14",
+      "title": "REPRODUCIBLE",
+      "kind": "gate",
+      "status": "NUMERICAL_GATE",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "same seed agrees to 1e-12",
+      "out_edges": [],
+      "in_edges": []
+    },
+    {
+      "id": "NS-P01",
+      "title": "H1 null search: zero surviving candidates",
+      "kind": "prereg",
+      "status": "PREREGISTERED",
+      "citation": "",
+      "measurable_by": "gate_table",
+      "closes": "",
+      "notes": "Expected outcome is null",
+      "out_edges": [
+        {
+          "to": "NS-N09",
+          "relation": "tested_by",
+          "note": "Null search governed by the fit-stability gate"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-N01",
+          "relation": "depends_on",
+          "note": "Gate feeds the candidate definition"
+        },
+        {
+          "from": "NS-N03",
+          "relation": "depends_on",
+          "note": "Resolution gate bounds the admissible fit window"
+        },
+        {
+          "from": "NS-X01",
+          "relation": "superseded_by",
+          "note": "Prior rounds replaced by the preregistered campaign"
+        }
+      ]
+    },
+    {
+      "id": "NS-P02",
+      "title": "H2 sparseness below threshold at the dissipation scale",
+      "kind": "prereg",
+      "status": "PREREGISTERED",
+      "citation": "NS-S13",
+      "measurable_by": "sparseness_delta",
+      "closes": "",
+      "notes": "",
+      "out_edges": [
+        {
+          "to": "NS-G02",
+          "relation": "tested_by",
+          "note": "H2 measures the sparseness hypothesis"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-P03",
+      "title": "H3 concentration D_inf in [0.8 to 1.5] and N-independent",
+      "kind": "prereg",
+      "status": "PREREGISTERED",
+      "citation": "",
+      "measurable_by": "D_inf",
+      "closes": "",
+      "notes": "Tube-like",
+      "out_edges": [
+        {
+          "to": "NS-G05",
+          "relation": "tested_by",
+          "note": "H3 measures concentration"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-P04",
+      "title": "H4 direction regularity beta >= 1/2 on the Gamma-set",
+      "kind": "prereg",
+      "status": "PREREGISTERED",
+      "citation": "NS-S09",
+      "measurable_by": "beta_holder_xi",
+      "closes": "",
+      "notes": "",
+      "out_edges": [
+        {
+          "to": "NS-G04",
+          "relation": "tested_by",
+          "note": "H4 measures the Holder exponent"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-P05",
+      "title": "H5 depletion trend theta >= 0 as nu decreases",
+      "kind": "prereg",
+      "status": "PREREGISTERED",
+      "citation": "",
+      "measurable_by": "rho_depletion",
+      "closes": "",
+      "notes": "",
+      "out_edges": [
+        {
+          "to": "NS-G05",
+          "relation": "tested_by",
+          "note": "H5 measures the depletion trend"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-FV01",
+      "title": "Formal (machine-checked) proof of a new mechanism",
+      "kind": "formal",
+      "status": "BLOCKED",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "Unblocks only if NS-G01 changes status",
+      "out_edges": [
+        {
+          "to": "NS-G01",
+          "relation": "depends_on",
+          "note": "Blocked until a new lemma exists"
+        }
+      ],
+      "in_edges": []
+    },
+    {
+      "id": "NS-X01",
+      "title": "Prior Monte-Carlo gauntlet rounds 1 and 2",
+      "kind": "history",
+      "status": "SMOKE_TEST_ONLY",
+      "citation": "",
+      "measurable_by": "",
+      "closes": "",
+      "notes": "No evidential weight; see README",
+      "out_edges": [
+        {
+          "to": "NS-P01",
+          "relation": "superseded_by",
+          "note": "Prior rounds replaced by the preregistered campaign"
+        }
+      ],
+      "in_edges": []
+    }
+  ],
+  "summary": {
+    "CERTIFIED_STANDARD": 13,
+    "CERTIFIED_STANDARD_VERIFY_CITATION": 6,
+    "NO_GO_PROVEN": 4,
+    "OPEN": 2,
+    "THEOREM_CONDITIONAL": 3,
+    "CONJECTURE": 2,
+    "PROVED_ELEMENTARY": 2,
+    "DIAGNOSTIC_ONLY": 3,
+    "NUMERICAL_GATE": 14,
+    "PREREGISTERED": 5,
+    "BLOCKED": 1,
+    "SMOKE_TEST_ONLY": 1
+  },
+  "open_problems": [
+    "NS-C01",
+    "NS-G01"
+  ],
+  "conditional_theorems": [
+    "NS-G02",
+    "NS-G04",
+    "NS-G06"
+  ]
+}

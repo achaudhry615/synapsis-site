@@ -1,0 +1,152 @@
+# References
+
+**Verification status.** arXiv, nature.com and par.nsf.gov were unreachable from
+the runtime in which this document was drafted (egress-blocked). Entries marked
+**[VERIFIED]** were confirmed against accessible sources; **[VERIFY]** entries
+are stated from secondary sources (search summaries, abstracts) and their exact
+hypotheses, exponents and constants **must be checked against the published
+papers before any conditional theorem in `ns_gamma_codimension.md` is relied
+upon**. This is not a formality: Theorems C3 and C5 are reductions *to* these
+statements, so an error in the hypothesis of A13 or A16 propagates directly into
+what we claim to have reduced.
+
+## Foundational
+
+- **[VERIFIED]** Leray, J. (1934). Sur le mouvement d'un liquide visqueux
+  emplissant l'espace. *Acta Math.* **63**, 193–248. — A1, A12.
+- **[VERIFIED]** Beale, J.T., Kato, T., Majda, A. (1984). Remarks on the breakdown
+  of smooth solutions for the 3-D Euler equations. *Comm. Math. Phys.* **94**,
+  61–66. — A6, and the log-inequality behind A5.
+- **[VERIFIED]** Caffarelli, L., Kohn, R., Nirenberg, L. (1982). Partial regularity
+  of suitable weak solutions of the Navier–Stokes equations. *CPAM* **35**,
+  771–831. — A10.
+- **[VERIFY]** Lin, F. (1998). A new proof of the Caffarelli–Kohn–Nirenberg
+  theorem. *CPAM* **51**, 241–257.
+- **[VERIFIED]** Escauriaza, L., Seregin, G., Šverák, V. (2003). $L_{3,\infty}$-
+  solutions of Navier–Stokes equations and backward uniqueness. *Russian Math.
+  Surveys* **58**, 211–250. — A11.
+- **[VERIFY]** Seregin, G. (2012). A certain necessary condition of potential blow
+  up for Navier–Stokes equations. *Comm. Math. Phys.* **312**, 833–845.
+
+## Geometric depletion (the mechanism — A7, A8, A9)
+
+- **[VERIFIED]** Constantin, P., Fefferman, C. (1993). Direction of vorticity and
+  the problem of global regularity for the Navier–Stokes equations. *Indiana
+  Univ. Math. J.* **42**, 775–789. — A8.
+- **[VERIFY]** Constantin, P. (1994). Geometric statistics in turbulence. *SIAM
+  Review* **36**, 73–98. — A7, the singular-integral representation of $\alpha$
+  with the $|\sin\angle|$ kernel bound. **The single most load-bearing citation
+  in this program**; verify the kernel bound verbatim.
+- **[VERIFY]** Beirão da Veiga, H., Berselli, L.C. (2002). On the regularizing
+  effect of the vorticity direction in incompressible viscous flows. *Differential
+  Integral Equations* **15**, 345–356. — A9, the Hölder-$1/2$ refinement.
+  Secondary sources confirm the $1/2$ threshold; **verify whether $\beta\ge1/2$ is
+  the stated hypothesis or whether additional conditions accompany it**, since
+  $\theta_c=1/2$ in Theorem C4 rests entirely on this.
+- **[VERIFY]** Beirão da Veiga, H. (2016). Open problems concerning the Hölder
+  continuity of the direction of vorticity for the Navier–Stokes equations.
+  arXiv:1604.08083.
+
+## Sparseness and the scaling gap (A13, A14 — the correct anchor)
+
+- **[VERIFY]** Grujić, Z. (2013). A geometric measure-type regularity criterion
+  for solutions to the 3D Navier–Stokes equations. *Nonlinearity* **26**,
+  289–296 (arXiv:1111.0217). — A13. **Verify: the exact definition of 1D
+  $\delta$-sparseness, the exponent relating the sparseness scale to
+  $\|\omega\|_\infty$, and the threshold value of $\delta$.** H2's threshold
+  $\delta_0$ in the preregistration is UNSET pending this.
+- **[VERIFY]** Bradshaw, Z., Farhat, A., Grujić, Z. (2019). An algebraic reduction
+  of the "scaling gap" in the Navier–Stokes regularity problem. *Arch. Ration.
+  Mech. Anal.* **231**, 1983–2005. — A14. First non-logarithmic reduction since
+  the 1960s; verify the exponents.
+- **[VERIFY]** Farhat, A., Grujić, Z., Leitmeyer, K. (2017). The space
+  $B^{-1}_{\infty,\infty}$, volumetric sparseness, and 3D NSE.
+- **[VERIFY]** Grujić, Z., Xu, L. Asymptotic criticality of the Navier–Stokes
+  regularity problem.
+- **[VERIFY]** Grujić, Z., Guberović, R. Localization of analytic regularity
+  criteria on the vorticity and balance between the vorticity magnitude and
+  coherence of the vorticity direction in the 3D NSE.
+- **[VERIFY]** Bradshaw, Z., Grujić, Z. (2013). Blow-up scenarios for 3D NSE
+  exhibiting sub-criticality with respect to the scaling of one-dimensional local
+  sparseness. arXiv:1303.0257.
+- **[VERIFY]** *Remarks on sparseness and regularity of Navier–Stokes solutions*
+  (2021), arXiv:2110.02187.
+
+## Log-weighted bmo depletion (A16 — the sharpest target)
+
+- **[VERIFY]** Grujić, Z. (2026). Logarithmic Depletion of Vortex Stretching and
+  Singularity Evasion in the 3D Navier–Stokes Equations. arXiv:2607.08866
+  (13 July 2026). — A16, Theorem C5. Stretching eigenvalue recast as a
+  singular-integral commutator; localised Coifman–Rochberg–Weiss estimate; direction
+  in $\mathrm{bmo}_{1/|\log r|}$ (fails Dini, permits oscillatory defects) depletes
+  stretching; $|\omega|$ forced into a subcritical Lorentz–Zygmund space under
+  $L^{3/2,\infty}$ concentration.
+  **Verify the exact concentration hypothesis and the definition of the weighted
+  space before relying on C5.** This paper post-dates the originating gauntlet
+  runs and was not accounted for in them.
+- **[VERIFY]** *On Decay of the Local Mean Oscillations of the Vorticity Direction
+  in Critical Navier–Stokes Flows* (2026), arXiv:2609.05720. Directly relevant to
+  the $\mu_\xi(r)$ measurement; obtain and read before freezing the preregistration.
+
+## Spectral / Besov criteria (A15)
+
+- **[VERIFY]** Cheskidov, A., Shvydkoy, R. (2010/2014). Regularity criteria in
+  $B^{-1}_{\infty,\infty}$. — A15, and the basis for replacing the $\zeta_p$
+  branch with the Cheskidov–Shvydkoy number.
+- **[VERIFY]** Cheskidov, A., Dai, M. The determining wavenumber / dissipation
+  wavenumber for Navier–Stokes.
+
+## Enstrophy bounds and extreme states
+
+- **[VERIFY]** Doering, C.R., Gibbon, J.D. (1995). *Applied Analysis of the
+  Navier–Stokes Equations.* CUP. — A4.
+- **[VERIFY]** Lu, L., Doering, C.R. (2008). Limits on enstrophy growth for
+  solutions of the three-dimensional Navier–Stokes equations. *Indiana Univ.
+  Math. J.* **57**, 2693–2727.
+- **[VERIFIED]** Ayala, D., Protas, B. (2017). Extreme vortex states and the growth
+  of enstrophy in 3D incompressible flows. *J. Fluid Mech.* **818**, 772–806.
+- **[VERIFIED]** Kang, D., Yun, D., Protas, B. (2020). Maximum amplification of
+  enstrophy in three-dimensional Navier–Stokes flows. *J. Fluid Mech.* **893**, A22.
+
+## Numerical near-singular scenarios and DNS geometry
+
+- **[VERIFY]** Kerr, R.M. (1993). Evidence for a singularity of the 3D
+  incompressible Euler equations. *Phys. Fluids A* **5**, 1725–1746.
+- **[VERIFY]** Kerr, R.M. (2018). Trefoil knot timescales for reconnection and
+  helicity. — the $\sqrt{\nu}$ circulation scaling used as a solver-validation target.
+- **[VERIFY]** Hou, T.Y., Li, R. (2006). Dynamic stability of the 3D axi-symmetric
+  Navier–Stokes equations with swirl. — the $T^*$ drift test.
+- **[VERIFY]** Luo, G., Hou, T.Y. (2014). Potentially singular solutions of the 3D
+  axisymmetric Euler equations. *PNAS* **111**, 12968–12973.
+- **[VERIFIED]** Rafner, J., Grujić, Z., et al. (2021). Geometry of turbulent
+  dissipation and the Navier–Stokes regularity problem. *Scientific Reports* **11**,
+  8824. — the only prior DNS measurement of the sparseness scale (Kida vortex and
+  homogeneous isotropic turbulence). Reported that in the Kida case the sparseness
+  scale was actualised "well beyond the guaranteed a priori bound and just beyond
+  the critical bound sufficient for diffusion to fully engage".
+  **Obtain the reported numerical values of $\delta$ and the sparseness scale**;
+  they are the natural prior for H2 and the calibration target for our estimator.
+- **[VERIFY]** Ashurst, W.T., Kerstein, A.R., Kerr, R.M., Gibson, C.H. (1987).
+  Alignment of vorticity and scalar gradient with strain rate. *Phys. Fluids* **30**,
+  2343. — the $e_2$ alignment expectation in `gamma.alignment_pdf`.
+- **[VERIFY]** Meneveau, C., Sreenivasan, K.R. (1991). The multifractal nature of
+  turbulent energy dissipation. *JFM* **224**, 429–484. — $D_q$ methodology.
+
+## Obstructions (A17)
+
+- **[VERIFIED]** Tao, T. (2016). Finite time blowup for an averaged
+  three-dimensional Navier–Stokes equation. *J. Amer. Math. Soc.* **29**, 601–674.
+- **[VERIFIED]** Elgindi, T. (2021). Finite-time singularity formation for
+  $C^{1,\alpha}$ solutions to the incompressible Euler equations on $\mathbb R^3$.
+  *Annals of Math.* **194**, 647–727.
+- **[VERIFY]** Chen, J., Hou, T.Y. Stable nearly self-similar blowup of the 2D
+  Boussinesq and 3D Euler equations with smooth data, I: Analysis and II: Rigorous
+  Numerics (arXiv:2305.05660); *Singularity formation in 3D Euler equations with
+  smooth initial data and boundary*, **PNAS (2025)**. Verify which statement is the
+  published one before citing.
+
+## Solvers
+
+- **[VERIFY]** Mortensen, M., Langtangen, H.P. (2016). High performance Python for
+  direct numerical simulations of turbulent flows. *Comput. Phys. Commun.* **203**,
+  53–65. — spectralDNS, the proposed second solver for `MULTIPLE_SOLVERS_AGREE`.

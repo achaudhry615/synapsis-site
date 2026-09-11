@@ -1,0 +1,131 @@
+{
+  "schema": "ns-regularity/gates/v1",
+  "frozen": "pre-campaign",
+  "note": "Thresholds are FIXED before any production run. Changes require an entry in DEVIATIONS.md with a timestamp and reason, and invalidate any candidate claim made under the old values.",
+  "gates": {
+    "CFL_STABLE": {
+      "node": "NS-N01",
+      "criteria": [
+        {"quantity": "cfl", "op": "<=", "value": 0.5, "scope": "every_step"},
+        {"quantity": "state_finite", "op": "==", "value": true, "scope": "every_step"},
+        {"quantity": "energy_monotone_tol", "op": "<=", "value": 1e-10, "scope": "every_step",
+         "comment": "unforced flow: E must not increase beyond roundoff"}
+      ]
+    },
+    "ENERGY_BALANCE_CONSISTENT": {
+      "node": "NS-N02",
+      "criteria": [
+        {"quantity": "energy_budget_residual", "op": "<=", "value": 1e-3, "scope": "max_over_run"},
+        {"quantity": "enstrophy_budget_residual", "op": "<=", "value": 1e-2, "scope": "max_over_run"}
+      ]
+    },
+    "HIGH_K_TAIL_RESOLVED": {
+      "node": "NS-N03",
+      "criteria": [
+        {"quantity": "kmax_eta", "op": ">=", "value": 2.0, "scope": "every_logged_step"},
+        {"quantity": "spectrum_tail_ratio", "op": "<=", "value": 1e-8, "scope": "every_logged_step",
+         "comment": "E(kmax) / max_k E(k)"},
+        {"quantity": "dissipation_peak_k_over_kmax", "op": "<=", "value": 0.3333, "scope": "every_logged_step",
+         "comment": "peak of k^2 E(k) must sit below kmax/3"}
+      ]
+    },
+    "DEALIASING_ACTIVE": {
+      "node": "NS-N04",
+      "criteria": [
+        {"quantity": "dealias_residual", "op": "==", "value": 0.0, "scope": "every_step"},
+        {"quantity": "aliasing_unit_test", "op": "==", "value": "pass", "scope": "once"}
+      ]
+    },
+    "TIME_STEP_CONVERGED": {
+      "node": "NS-N05",
+      "criteria": [
+        {"quantity": "omega_max_rel_diff_dt_half", "op": "<=", "value": 1e-4, "scope": "max_over_run"},
+        {"quantity": "Tstar_rel_diff_dt_half", "op": "<=", "value": 0.005, "scope": "final"}
+      ]
+    },
+    "SPATIAL_REFINEMENT_CONVERGED": {
+      "node": "NS-N06",
+      "criteria": [
+        {"quantity": "omega_max_rel_diff_2N", "op": "<=", "value": 1e-3, "scope": "max_over_run"},
+        {"quantity": "spectrum_rel_diff_2N_common_range", "op": "<=", "value": 0.01, "scope": "max_over_run"},
+        {"quantity": "geometry_stats_within_ci", "op": "==", "value": true, "scope": "final",
+         "comment": "delta(r/ell_nu), D_inf, beta must agree within bootstrap CI"}
+      ]
+    },
+    "PRECISION_ESCALATION_CONSISTENT": {
+      "node": "NS-N07",
+      "criteria": [
+        {"quantity": "omega_max_rel_diff_fp32_fp64", "op": "<=", "value": 1e-3, "scope": "max_over_run"}
+      ]
+    },
+    "DOMAIN_SIZE_CONSISTENT": {
+      "node": "NS-N08",
+      "criteria": [
+        {"quantity": "omega_max_rel_diff_2L", "op": "<=", "value": 0.01, "scope": "max_over_run"}
+      ]
+    },
+    "SINGULAR_TIME_FIT_STABLE": {
+      "node": "NS-N09",
+      "criteria": [
+        {"quantity": "power_law_bic_margin", "op": ">=", "value": 10.0, "scope": "final"},
+        {"quantity": "Tstar_relative_drift", "op": "<=", "value": 0.02, "scope": "final"},
+        {"quantity": "Tstar_rel_diff_across_N", "op": "<=", "value": 0.02, "scope": "final"},
+        {"quantity": "alpha_ci_width", "op": "<=", "value": 0.2, "scope": "final"},
+        {"quantity": "extrapolation_ratio", "op": "<=", "value": 0.5, "scope": "final",
+         "comment": "(T* - t_end) / (t_end - t_start)"}
+      ]
+    },
+    "MULTIPLE_SOLVERS_AGREE": {
+      "node": "NS-N10",
+      "criteria": [
+        {"quantity": "omega_max_rel_diff_solver2", "op": "<=", "value": 1e-3, "scope": "max_over_run"},
+        {"quantity": "gamma_integral_rel_diff_solver2", "op": "<=", "value": 1e-2, "scope": "max_over_run"}
+      ]
+    },
+    "BKM_CONSISTENT": {
+      "node": "NS-N11",
+      "criteria": [
+        {"quantity": "alpha_ci_lower", "op": ">=", "value": 1.0, "scope": "final",
+         "comment": "Leray lower bound A12 forbids alpha < 1"}
+      ]
+    },
+    "L3_GROWTH": {
+      "node": "NS-N12",
+      "criteria": [
+        {"quantity": "L3_norm_monotone_increasing_over_fit_window", "op": "==", "value": true, "scope": "final"}
+      ]
+    },
+    "SYMMETRY_PRESERVED": {
+      "node": "NS-N13",
+      "criteria": [
+        {"quantity": "symmetry_residual", "op": "<=", "value": 1e-10, "scope": "max_over_run",
+         "comment": "applies to taylor_green and kida_pelz only"}
+      ]
+    },
+    "REPRODUCIBLE": {
+      "node": "NS-N14",
+      "criteria": [
+        {"quantity": "rerun_max_abs_diff", "op": "<=", "value": 1e-12, "scope": "final"}
+      ]
+    }
+  },
+  "candidate_definition": {
+    "name": "STRICT_SURVIVING_BLOWUP_CANDIDATE",
+    "requires_all_gates_at": "512^3",
+    "additional": [
+      "power_law preferred by BIC margin >= 10 over EVERY alternative model",
+      "alpha CI lower bound >= 1",
+      "T* stable across N in {128,256,512} to within 2%",
+      "T* stable across fit-window truncation to within 2%"
+    ],
+    "preregistered_expected_count": 0,
+    "on_nonzero": "Independent replication with a second solver and a different IC seed is REQUIRED before any public statement stronger than 'unexplained numerical behaviour'. A surviving candidate is not a proof and must never be reported as one."
+  },
+  "hypothesis_thresholds": {
+    "H2_sparseness_delta_p95_max": {"value": null, "status": "UNSET_PENDING_CITATION",
+      "comment": "Must be set from the published sparseness threshold (A13/A14) before the campaign. Setting it post hoc invalidates H2."},
+    "H3_D_inf_range": [0.8, 1.5],
+    "H4_beta_min": 0.5,
+    "H5_theta_min": 0.0
+  }
+}

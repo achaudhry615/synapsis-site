@@ -1,0 +1,57 @@
+id,title,kind,status,citation,measurable_by,closes,notes
+NS-S01,Leray energy identity,standard,CERTIFIED_STANDARD,Leray 1934,ENERGY_BALANCE_CONSISTENT,,Basis of all a priori control
+NS-S02,Vorticity equation and D|omega|/Dt = alpha|omega| + nu xi.Laplacian(omega),standard,CERTIFIED_STANDARD,textbook,,,Defines alpha = xi.S.xi
+NS-S03,Enstrophy balance Omega' = int(omega.S.omega) - nu||grad omega||^2,standard,CERTIFIED_STANDARD,textbook,budget_residual,,Exact identity; the balance the program turns on
+NS-S04,Supercritical bound Omega' <= C Omega^3 / nu^3,standard,CERTIFIED_STANDARD,Doering-Gibbon 1995,,,Instantaneous sharpness shown by Lu-Doering 2008
+NS-S05,Calderon-Zygmund ||S||_p <= C_p ||omega||_p and the log-loss at p=infinity,standard,CERTIFIED_STANDARD,Calderon-Zygmund; BKM 1984,,,Source of Lemma C3
+NS-S06,Beale-Kato-Majda criterion,standard,CERTIFIED_STANDARD,Beale-Kato-Majda 1984,omega_max_timeseries,,Forces fitted alpha >= 1
+NS-S07,"Constantin singular-integral representation of alpha with kernel D(yhat; xi; xi_prime)",standard,CERTIFIED_STANDARD,Constantin 1994,,,|D| <= |sin angle|; the geometric depletion mechanism
+NS-S08,Constantin-Fefferman direction-regularity criterion,standard,CERTIFIED_STANDARD,Constantin-Fefferman 1993,beta_holder_xi,,Lipschitz xi on high-vorticity region implies regularity
+NS-S09,Beirao da Veiga-Berselli Holder-1/2 refinement,standard,CERTIFIED_STANDARD_VERIFY_CITATION,Beirao da Veiga-Berselli Diff Int Eq 15 (2002) 345-356,beta_holder_xi,,beta = 1/2 is scale-critical; the only genuine exponent threshold in the program
+NS-S10,Caffarelli-Kohn-Nirenberg partial regularity P^1(Sigma)=0,standard,CERTIFIED_STANDARD,CKN 1982; Lin 1998,,,Parabolic dimension of space-time singular set; NOT the same object as D_j
+NS-S11,Ladyzhenskaya-Prodi-Serrin and Escauriaza-Seregin-Sverak L^infty_t L^3_x,standard,CERTIFIED_STANDARD,ESS 2003; Seregin 2012,L3_norm_timeseries,,||u(t)||_3 must blow up at a singularity
+NS-S12,Leray lower bound ||omega(t)||_infty >= c/(T*-t),standard,CERTIFIED_STANDARD,Leray 1934,fit_alpha,,Constrains admissible power-law fits
+NS-S13,Grujic 1D sparseness regularity criterion via harmonic measure maximum principle,standard,CERTIFIED_STANDARD_VERIFY_CITATION,Grujic 2013 (arXiv 1111.0217),sparseness_delta,,Sparseness at scale comparable to radius of spatial analyticity prevents blowup
+NS-S14,Bradshaw-Farhat-Grujic algebraic reduction of the scaling gap,standard,CERTIFIED_STANDARD_VERIFY_CITATION,Bradshaw-Farhat-Grujic ARMA 2019,sparseness_delta,,First non-logarithmic reduction of NS supercriticality since the 1960s
+NS-S15,"Cheskidov-Shvydkoy Besov B^{-1}_{inf;inf} regularity criteria",standard,CERTIFIED_STANDARD_VERIFY_CITATION,Cheskidov-Shvydkoy 2010/2014,cs_number,,The only rigorous bridge from spectral data to a regularity theorem
+NS-S16,Grujic log-weighted bmo depletion of vortex stretching,standard,CERTIFIED_STANDARD_VERIFY_CITATION,Grujic arXiv 2607.08866 (2026),mu_xi_modulus,,Direction in bmo_{1/|log r|} depletes stretching; weaker than Holder and measurable
+NS-S17,Tao averaged Navier-Stokes blowup,obstruction,CERTIFIED_STANDARD,Tao 2016,,,Any proof must use kernel structure; consistent with an alignment-depletion route
+NS-S18,"Elgindi C^{1;alpha} Euler blowup",obstruction,CERTIFIED_STANDARD,Elgindi 2021,,,Euler blowup exists at low regularity
+NS-S19,Chen-Hou computer-assisted 3D Euler blowup with boundary,obstruction,CERTIFIED_STANDARD_VERIFY_CITATION,Chen-Hou; PNAS 2025,,,Boundary case; does not settle the periodic viscous problem
+NS-B01,No-go: box-dimension hypothesis cannot improve the enstrophy bound,nogo,NO_GO_PROVEN,this work,,,Exponent (3-D)/(1-D) is worse than 3 for all D<1 and vacuous for D>=1
+NS-B02,No-go: volume of the concentration set cancels in the dissipation-scale balance,nogo,NO_GO_PROVEN,this work,R_E,,Decisive object is the O(1) ratio R_E not a dimension
+NS-B03,No-go: enstrophy dissipation gives H^1 but ||omega||_infty needs H^{3/2+},nogo,NO_GO_PROVEN,this work,,,The scaling gap in Sobolev language
+NS-B04,Caveat: small box-counting volume does not imply transverse thinness,nogo,NO_GO_PROVEN,this work,,,Fat-Cantor counterexample; a D=1 tube IS transversally thin
+NS-C01,Scale-critical regularity closure,target,OPEN,,,,The Millennium-hard node; no path proposed here
+NS-G01,Derivation of a depletion inequality from the equations,target,OPEN,,,NS-C01,Millennium-hard; this is the real gap
+NS-G02,Conditional theorem: Gamma-set transverse thinness implies regularity,conditional,THEOREM_CONDITIONAL,this work by reduction to NS-S13,sparseness_delta,NS-C01 given NS-G01,Proved by reduction; hypothesis unproved
+NS-G03,Conjecture: Gamma-sparseness suffices (strictly stronger than omega-sparseness),conjecture,CONJECTURE,this work,sparseness_delta_gamma,,Missing Lemma L: alignment rate control on Omega_lambda minus E_lambda
+NS-G04,Conditional theorem: direction regularity beta >= 1/2 on the Gamma-set implies regularity,conditional,THEOREM_CONDITIONAL,this work by reduction to NS-S09,beta_holder_xi,NS-C01 given NS-G01,theta_c = 1/2 lives here and nowhere else
+NS-G05,Conjecture: depletion exponent rho(l_nu) <= C (l_nu/L)^theta,conjecture,CONJECTURE,this work,rho_depletion,,Does NOT close the enstrophy route even if true; diagnostic prediction only
+NS-G06,Conditional theorem: log-modulus mean-oscillation control of xi on the Gamma-set,conditional,THEOREM_CONDITIONAL,this work by reduction to NS-S16,mu_xi_modulus,NS-C01 given NS-G01,Weakest measurable hypothesis with a published sufficient condition behind it
+NS-L01,Lemma: transverse thinness implies 1D sparseness,lemma,PROVED_ELEMENTARY,this work,,,Trivial but it is the object actually measured
+NS-L02,Lemma: Gamma-superlevel sets embed in omega-superlevel sets with square-root threshold loss,lemma,PROVED_ELEMENTARY,this work via NS-S05,,,E_lambda subset Omega_{sqrt(lambda/C_log)}
+NS-F01,Multifractal codimension bridge,diagnostic,DIAGNOSTIC_ONLY,,zeta_p,,Downgraded: no theorem connects zeta_p to regularity
+NS-F02,Cheskidov-Shvydkoy number over the dissipation range,diagnostic,DIAGNOSTIC_ONLY,NS-S15,cs_number,,Replaces NS-F01; has a theorem behind it
+NS-CH01,FTLE / alignment mechanism,diagnostic,DIAGNOSTIC_ONLY,,ftle;alignment_pdf,,Lagrangian chaos is not a singularity criterion
+NS-N01,CFL_STABLE,gate,NUMERICAL_GATE,,,,see prereg/gates.json
+NS-N02,ENERGY_BALANCE_CONSISTENT,gate,NUMERICAL_GATE,,,,see prereg/gates.json
+NS-N03,HIGH_K_TAIL_RESOLVED,gate,NUMERICAL_GATE,,,,k_max*eta >= 2
+NS-N04,DEALIASING_ACTIVE,gate,NUMERICAL_GATE,,,,asserted every step
+NS-N05,TIME_STEP_CONVERGED,gate,NUMERICAL_GATE,,,,dt vs dt/2
+NS-N06,SPATIAL_REFINEMENT_CONVERGED,gate,NUMERICAL_GATE,,,,N vs 2N at fixed nu
+NS-N07,PRECISION_ESCALATION_CONSISTENT,gate,NUMERICAL_GATE,,,,FP32 vs FP64
+NS-N08,DOMAIN_SIZE_CONSISTENT,gate,NUMERICAL_GATE,,,,L = 2pi vs 4pi
+NS-N09,SINGULAR_TIME_FIT_STABLE,gate,NUMERICAL_GATE,,,,see spec/model_selection.md
+NS-N10,MULTIPLE_SOLVERS_AGREE,gate,NUMERICAL_GATE,,,,independent second solver
+NS-N11,BKM_CONSISTENT,gate,NUMERICAL_GATE,NS-S06,fit_alpha,,alpha >= 1 with CI
+NS-N12,L3_GROWTH,gate,NUMERICAL_GATE,NS-S11,L3_norm_timeseries,,||u||_3 increasing over the fit window
+NS-N13,SYMMETRY_PRESERVED,gate,NUMERICAL_GATE,,,,for TG and Kida-Pelz initial data
+NS-N14,REPRODUCIBLE,gate,NUMERICAL_GATE,,,,same seed agrees to 1e-12
+NS-P01,H1 null search: zero surviving candidates,prereg,PREREGISTERED,,gate_table,,Expected outcome is null
+NS-P02,H2 sparseness below threshold at the dissipation scale,prereg,PREREGISTERED,NS-S13,sparseness_delta,,
+NS-P03,"H3 concentration D_inf in [0.8 to 1.5] and N-independent",prereg,PREREGISTERED,,D_inf,,Tube-like
+NS-P04,H4 direction regularity beta >= 1/2 on the Gamma-set,prereg,PREREGISTERED,NS-S09,beta_holder_xi,,
+NS-P05,H5 depletion trend theta >= 0 as nu decreases,prereg,PREREGISTERED,,rho_depletion,,
+NS-FV01,Formal (machine-checked) proof of a new mechanism,formal,BLOCKED,,,,Unblocks only if NS-G01 changes status
+NS-X01,Prior Monte-Carlo gauntlet rounds 1 and 2,history,SMOKE_TEST_ONLY,,,,No evidential weight; see README
