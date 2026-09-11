@@ -36,8 +36,15 @@ def summarize(path):
         return None
     wmax = [r["omega_max"] for r in steps]
     g = geo[len(geo) // 2] if geo else {}
-    sp = g.get("sparseness_curve", [])
-    near = min(sp, key=lambda q: abs(q["r_over_ell_nu"] - 1.0)) if sp else {}
+    sp = g.get("sparseness_grujic_components") or []
+    an = g.get("analyticity") or {}
+    R_dx = g.get("R_analytic_over_dx", float("nan"))
+    # Evaluate at the theorem's scale r ~ R_analytic when the spectral fit is
+    # trustworthy; fall back to ell_nu (and flag it) otherwise.
+    use_R = (an.get("r2") or 0) > 0.9 and R_dx == R_dx and R_dx > 2.5
+    key = "r_over_R_analytic" if use_R else "r_over_ell_nu"
+    cand = [q for q in sp if q.get(key) == q.get(key)]
+    near = min(cand, key=lambda q: abs(q[key] - 1.0)) if cand else {}
     gates = summ.get("gates", {})
     applicable = [k for k, v in gates.get("gates", {}).items()
                   if v["status"] != "NOT_APPLICABLE"]
@@ -47,8 +54,11 @@ def summarize(path):
         "nu": meta.get("nu"),
         "growth": max(wmax) / wmax[0],
         "ell_nu_dx": g.get("ell_nu_over_dx", float("nan")),
-        "delta": near.get("delta_p95", float("nan")),
-        "r_over_ell": near.get("r_over_ell_nu", float("nan")),
+        "delta": near.get("delta_worst_p95", float("nan")),
+        "worst_set": near.get("delta_worst_set", "-"),
+        "scale": "R_an" if use_R else "l_nu*",
+        "R_dx": R_dx,
+        "r_over_scale": near.get(key, float("nan")),
         "beta": g.get("holder_beta", {}).get("beta", float("nan")),
         "D_inf": g.get("dimensions", {}).get("inf", float("nan")),
         "R_E": g.get("R_E", float("nan")),
@@ -66,22 +76,22 @@ def main():
     rows = [r for r in (summarize(p) for p in paths) if r]
     if not rows:
         print("no results found"); return
-    hdr = (f"{'case':<30}{'growth':>8}{'l_nu/dx':>9}{'delta':>7}"
-           f"{'beta':>6}{'mu_sl':>7}{'C5':>5}{'D_inf':>7}{'R_E':>9}{'R_glob':>8}"
-           f"{'model':>14}{'gates':>7}")
+    hdr = (f"{'case':<30}{'growth':>8}{'R_an/dx':>8}{'scale':>7}{'r/scl':>6}"
+           f"{'delta':>7}{'set':>5}{'beta':>6}{'mu_sl':>6}{'C5':>4}{'R_E':>9}"
+           f"{'R_glob':>8}{'gates':>7}")
     print(hdr); print("-" * len(hdr))
     for r in rows:
-        print(f"{r['case']:<30}{r['growth']:>8.4f}{r['ell_nu_dx']:>9.2f}"
-              f"{r['delta']:>7.3f}{r['beta']:>6.2f}{r['mu_slope']:>7.2f}"
-              f"{r['c5_bounded']:>5}{r['D_inf']:>7.2f}{r['R_E']:>9.4f}"
-              f"{r['R_global']:>8.3f}{str(r['preferred']):>14}{r['gates']:>7}")
+        print(f"{r['case']:<30}{r['growth']:>8.4f}{r['R_dx']:>8.2f}{r['scale']:>7}"
+              f"{r['r_over_scale']:>6.2f}{r['delta']:>7.3f}{r['worst_set']:>5}"
+              f"{r['beta']:>6.2f}{r['mu_slope']:>6.2f}{r['c5_bounded']:>4}"
+              f"{r['R_E']:>9.4f}{r['R_global']:>8.3f}{r['gates']:>7}")
     print("-" * len(hdr))
-    unres = [r for r in rows if r["ell_nu_dx"] < 2.0]
-    if unres:
-        print(f"\nWARNING: {len(unres)}/{len(rows)} cases have ell_nu < 2 dx.")
-        print("For these, delta(r ~ ell_nu) is SUB-GRID and its value carries no")
-        print("information about the Theorem C3 hypothesis (spec/gamma_measurement.md §4).")
-        print("The sparseness column must NOT be read as a measurement for these rows.")
+    bad = [r for r in rows if r["scale"] != "R_an"]
+    if bad:
+        print(f"\nWARNING: {len(bad)}/{len(rows)} case(s) marked l_nu* fell back to the")
+        print("ell_nu scale because the spectral analyticity fit was untrustworthy")
+        print("(r^2 <= 0.9) or R_analytic was sub-grid. For those rows delta is NOT a")
+        print("measurement of the C3 hypothesis, which lives at r ~ R_analytic.")
     print("\nColumns: delta = 1D sparseness p95 near r ~ ell_nu (Thm C3);")
     print("  beta = Holder exponent of xi on the set (Thm C4, threshold 0.5;")
     print("         values > 1 mean a locally CONSTANT direction field, which")
