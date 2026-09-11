@@ -1386,11 +1386,11 @@
       "id": "NS-E07",
       "title": "KNV modulus propagation does not transfer to the direction field",
       "kind": "nogo",
-      "status": "NO_GO_PROVEN",
+      "status": "NO_GO_PARTIAL",
       "citation": "this work",
       "measurable_by": "",
       "closes": "",
-      "notes": "Order-0 forcing at rate M vs local order-2 dissipation; balance only at ell_nu",
+      "notes": "KNV machinery does not transfer generically, but Grujic arXiv:2609.05720 notes an outward radial drift 4 nu x/|x|^2 from the critical concentration that our balance omits; question is live in the literature",
       "out_edges": [
         {
           "to": "NS-G06",
@@ -1459,7 +1459,7 @@
     "CERTIFIED_STANDARD": 14,
     "CERTIFIED_STANDARD_VERIFY_CITATION": 5,
     "CONTESTED": 1,
-    "NO_GO_PROVEN": 8,
+    "NO_GO_PROVEN": 7,
     "OPEN": 2,
     "THEOREM_CONDITIONAL": 4,
     "CONJECTURE": 2,
@@ -1469,6 +1469,7 @@
     "PREREGISTERED": 5,
     "BLOCKED": 1,
     "SMOKE_TEST_ONLY": 1,
+    "NO_GO_PARTIAL": 1,
     "OPEN_ATTACKABLE": 1,
     "OPEN_HARD": 1
   },

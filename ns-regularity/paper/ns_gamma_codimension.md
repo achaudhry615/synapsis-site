@@ -569,6 +569,30 @@ $\mathrm{osc}_r\xi\lesssim r/\ell_\nu$, which is $O(1)$ at $r=\ell_\nu$: **the
 propagated modulus can be no better than its seed, and the seed is $O(1)$.** This
 is Proposition B2 in harmonic-map form.
 
+**Independent confirmation, and a qualification of this certificate.** Grujić,
+arXiv:2609.05720 (4 Sept 2026), isolates the same geometric PDE — "the Harmonic
+Map Heat Flow into the sphere supplemented with the fluid transport,
+cross-diffusion and tangential strain" — for exactly the critical point
+singularity $|\omega|\sim|x|^{-2}$ in $L^{3/2,\infty}$, and asks precisely the E5
+question: *whether the NSE mechanics can propagate* the logarithmic decay
+$\xi\in\mathrm{bmo}_{1/|\log r|}$ that the companion paper (A16) shows prevents
+blow-up. That the equation above was derived here independently and agrees is
+reassuring; that the question is posed as open in Sept 2026 is the relevant
+status.
+
+Two of its stated observations bear directly on the certificate above and
+**partially undercut it**: (i) the $O(|x|^{-2})$ concentration, factored out of
+the viscous cross-diffusion, generates an **outward radial drift
+$4\nu x/|x|^2$ at the core**; (ii) the HMHF nonlinearity is **harmless for
+$\tfrac12|\xi-e|^2$**. Neither is accounted for in the balance above, which
+treated the dissipation as purely local and the nonlinearity as a liability. An
+outward drift transports oscillation *away* from the core, which is a mechanism
+of exactly the kind the certificate claims does not exist. **E5 is therefore
+downgraded from DEAD to DEAD-FOR-GENERIC-TRANSFER: the KNV machinery does not
+transfer as such, but the critical-concentration setting has structure our
+argument does not cover, and the question is live in the literature.** We have
+not read the paper body (arXiv is egress-blocked).
+
 Sharper still: a scale-invariant profile $|\omega|=|x|^{-2}\Phi(\hat x)$,
 $\xi=\Xi(\hat x)$ has $\mathrm{osc}_{B_r}\xi$ *independent of $r$*. So **C5's
 hypothesis is precisely "the direction field has no scale-invariant angular
@@ -600,7 +624,7 @@ nothing in this ledger makes it *sufficient*.
 | "Lemma L" pointwise | **DEAD** ✔ | Burgers degeneracy + $t=0$ counterexample |
 | "Lemma L" asymptotic | **OPEN-HARD** | no mechanism; $\xi\cdot H\xi$ sign-indefinite, $O(M^2)$ |
 | restricted Euler | **DEAD** | Vieillefosse blow-up is a known artefact |
-| KNV modulus propagation | **DEAD** | order-0 forcing vs local order-2 dissipation; balance only at $\ell_\nu$ |
+| KNV modulus propagation | **DEAD for generic transfer**; live in the critical setting | order-0 forcing vs local order-2 dissipation; but see the outward radial drift $4\nu x/|x|^2$ in arXiv:2609.05720, which our balance omits |
 | C4 as a derivation target | **DEAD** | subcritical (E1) |
 | commutator route | **DEAD as derivation**, valid as reduction | $\mathrm{osc}_{\ell_\nu}\xi=O(1)$ |
 | Γ-criterion as a theorem | **OPEN-HARD** | $E_\lambda=\emptyset$ gives only $M'\le\lambda M^2$, blow-up-consistent |
