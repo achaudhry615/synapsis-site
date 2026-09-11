@@ -26,10 +26,34 @@ and the normalised form injects $0/0$ noise at vorticity nulls.
 super-level set carrying $(1-\varepsilon)$ of $\int\Gamma^+$, for
 $\varepsilon\in\{0.1,0.2\}$. Scale-free; no absolute level to guess.
 
-**Secondary (theorem-aligned, absolute).** $E_\lambda=\{\Gamma>\lambda M^3\}$ and
-$\Omega_\lambda=\{|\omega|>\lambda M\}$ for $\lambda\in\{0.1,0.25,0.5\}$. Theorems
-C3/C4/C5 are stated for these, so they must be reported even though the capture
-threshold is better conditioned.
+**Secondary (theorem-aligned, absolute).** $\Omega_\lambda=\{|\omega|>\lambda M\}$
+for $\lambda\in\{0.1,0.25,0.5\}$, and $E_\lambda=\{\Gamma>\lambda M^3\}$ — **but
+not at those values of $\lambda$.** Theorems C3/C4/C5 are stated for these sets,
+so they must be reported; the thresholds need care.
+
+**Measured volume fraction of $E_\lambda$ at $64^3$:**
+
+| family | $\lambda=0.5$ | $0.25$ | $0.1$ | $10^{-2}$ | $10^{-3}$ | $10^{-4}$ | capture 0.9 |
+|---|---|---|---|---|---|---|---|
+| Taylor–Green | 0 | 0 | 0 | 5.4e-2 | 3.0e-1 | 3.9e-1 | 2.2e-1 |
+| Kida–Pelz | 0 | 0 | 0 | 1.1e-2 | 3.1e-1 | 3.7e-1 | 2.4e-1 |
+| antiparallel tubes | 0 | 0 | 0 | 0 | 0 | 1.8e-4 | 3.6e-2 |
+| multiscale random | 0 | 0 | 1.2e-4 | 1.2e-1 | 4.1e-1 | 4.9e-1 | 2.6e-1 |
+
+**$\lambda\in\{0.1,0.25,0.5\}$ gives an empty set for every family.** The reason
+is structural: $\Gamma\le\|S\|_\infty M^2=C_{\log}M^3$ with $C_{\log}$ measured at
+$0.25$–$0.71$ on these fields, and attaining that bound requires $|\omega|=M$ and
+$\alpha$ maximal *at the same point*. The usable absolute range is
+$\lambda\sim10^{-3}$–$10^{-2}$, and it is strongly family-dependent: the
+antiparallel tubes need $\lambda\le10^{-4}$, because their stretching is
+genuinely depleted ($\mathcal R_E\approx0.01$).
+
+**Consequence:** an absolute $\Gamma$ threshold cannot be fixed once for all
+families without either emptying the set or, worse, emptying it for exactly the
+depleted cases the program is trying to characterise — which would bias the
+campaign toward the flows with the *least* depletion. The capture threshold is
+well-posed at every instant for every family and is the primary rule; absolute
+thresholds are reported as a secondary, per-family-calibrated diagnostic.
 
 Quantile thresholds are recorded but never used for dimension estimates.
 
