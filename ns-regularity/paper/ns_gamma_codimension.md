@@ -366,6 +366,22 @@ $24^3$–$64^3$) are recorded as `NS-X01: SMOKE_TEST_ONLY`.
   Reporting it as a result invites the reader to treat it as evidence for
   regularity. It is not.
 
+**A specific concern about the strongest prior candidate.** The originating run's
+best case, ADV023, came from the `multiscale_random` family. Running that same
+family here at $64^3$ with $\nu=0.02$ gives $k_{\max}\eta=1.33$, which **fails**
+the resolution gate `HIGH_K_TAIL_RESOLVED` — the field is under-resolved from the
+first step. A broadband initial spectrum puts energy at the grid scale by
+construction, so it is the family most likely to be under-resolved at a given
+$(N,\nu)$, and it is precisely the family whose apparent signal was strongest.
+
+We do not know the viscosity used in the prior runs and therefore cannot assert
+that ADV023 was under-resolved. But the coincidence is the kind that a
+preregistered resolution gate exists to catch, and it should be checked before
+$1.537\times$ growth or $\mathcal R\approx2.857$ from that case is given any
+weight. Under-resolution inflates exactly these diagnostics: aliased energy at
+high $k$ raises $\|\nabla\omega\|$ and the grid-maximum $\|\omega\|_\infty$
+without corresponding physical structure.
+
 ### 6.2 The multifractal branch is downgraded, not abandoned
 
 `NS-F01` (structure-function exponents $\to$ regularity) has **no theorem behind

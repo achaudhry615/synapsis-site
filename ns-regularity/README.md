@@ -143,7 +143,16 @@ had no power to find one.
 
 ```
 cd code
-python3 scripts/validate_pipeline.py     # all PASS required before trusting anything else
-python3 scripts/run_tg64.py              # 64³ Taylor–Green, full Γ pipeline
-python3 scripts/evaluate_gates.py results/<run>.jsonl
+python3 scripts/validate_pipeline.py      # 33/33 required before trusting anything else
+python3 -m unittest discover -s tests     # 13/13
+python3 scripts/resolution_budget.py      # what resolution the geometry actually needs
+python3 scripts/run_campaign.py --ic taylor_green --N 64 --nu 0.02 --tend 6
+python3 scripts/summarize_results.py      # cross-case table
+python3 -m gpu.ns_cupy --selftest         # CPU/GPU equivalence (needs CUDA for the real test)
 ```
+
+`run_campaign.py --ic` accepts `taylor_green`, `abc`, `kida_pelz`,
+`antiparallel_tubes`, `vortex_sheet`, `multiscale_random`.
+
+Requires numpy; SciPy is used for the Levenberg–Marquardt fits when present and
+a Nelder–Mead fallback is used when it is not.
