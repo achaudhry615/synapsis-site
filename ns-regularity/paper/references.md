@@ -2,7 +2,7 @@
 
 **Verification status.** arXiv, nature.com and par.nsf.gov were unreachable from
 the runtime in which this document was drafted (egress-blocked). Entries marked
-**[VERIFIED]** were confirmed against accessible sources; **[VERIFY]** entries
+**[VERIFIED]** were confirmed; **[VERIFY]** entries
 are stated from secondary sources (search summaries, abstracts) and their exact
 hypotheses, exponents and constants **must be checked against the published
 papers before any conditional theorem in `ns_gamma_codimension.md` is relied
@@ -20,8 +20,8 @@ what we claim to have reduced.
 - **[VERIFIED]** Caffarelli, L., Kohn, R., Nirenberg, L. (1982). Partial regularity
   of suitable weak solutions of the Navier–Stokes equations. *CPAM* **35**,
   771–831. — A10.
-- **[VERIFY]** Lin, F. (1998). A new proof of the Caffarelli–Kohn–Nirenberg
-  theorem. *CPAM* **51**, 241–257.
+- **[VERIFIED — Clay statement ref. 6]** Lin, F. (1998). A new proof of the
+  Caffarelli–Kohn–Nirenberg theorem. *Comm. Pure & Appl. Math.* **51**, 241–257.
 - **[VERIFIED]** Escauriaza, L., Seregin, G., Šverák, V. (2003). $L_{3,\infty}$-
   solutions of Navier–Stokes equations and backward uniqueness. *Russian Math.
   Surveys* **58**, 211–250. — A11.
@@ -49,16 +49,25 @@ what we claim to have reduced.
 
 ## Sparseness and the scaling gap (A13, A14 — the correct anchor)
 
-- **[VERIFY]** Grujić, Z. (2013). A geometric measure-type regularity criterion
-  for solutions to the 3D Navier–Stokes equations. *Nonlinearity* **26**,
-  289–296 (arXiv:1111.0217). — A13. **Verify: the exact definition of 1D
-  $\delta$-sparseness, the exponent relating the sparseness scale to
-  $\|\omega\|_\infty$, and the threshold value of $\delta$.** H2's threshold
-  $\delta_0$ in the preregistration is UNSET pending this.
-- **[VERIFY]** Bradshaw, Z., Farhat, A., Grujić, Z. (2019). An algebraic reduction
-  of the "scaling gap" in the Navier–Stokes regularity problem. *Arch. Ration.
-  Mech. Anal.* **231**, 1983–2005. — A14. First non-logarithmic reduction since
-  the 1960s; verify the exponents.
+- **[VERIFIED bibliographically; hypotheses PARTLY verified]** Grujić, Z. (2013).
+  A geometric measure-type regularity criterion for solutions to the 3D
+  Navier–Stokes equations. *Nonlinearity* **26**(1), 289 (DOI
+  10.1088/0951-7715/26/1/289; arXiv:1111.0217). — A13.
+  **Confirmed:** the framework is built on the scale of sparseness of the
+  super-level sets of *the positive and negative parts of the vorticity
+  components*; linear $\delta$-sparseness of a set $S$ around $x_0$ at scale $r$
+  means there is a unit vector $d$ with the ratio of $|S\cap{\rm segment}|$ to
+  the segment length bounded by $\delta$; the scale is comparable to the uniform
+  lower bound on the radius of spatial analyticity; the mechanism is the
+  harmonic-measure majorisation principle.
+  **Still unverified:** the numerical threshold $\delta_0$ and the constant tying
+  the sparseness scale to the analyticity radius. H2's $\delta_0$ stays UNSET.
+- **[VERIFIED bibliographically; CLAIM CONTESTED]** Bradshaw, Z., Farhat, A.,
+  Grujić, Z. (2019). An algebraic reduction of the 'scaling gap' in the
+  Navier–Stokes regularity problem. *Arch. Ration. Mech. Anal.* **231**,
+  1983–2005 (arXiv:1704.05546). — A14. See the Albritton–Bradshaw entry below:
+  the scaling-gap claim is critically examined in a later paper co-authored by
+  one of these authors. **Not relied upon anywhere in this project.**
 - **[VERIFY]** Farhat, A., Grujić, Z., Leitmeyer, K. (2017). The space
   $B^{-1}_{\infty,\infty}$, volumetric sparseness, and 3D NSE.
 - **[VERIFY]** Grujić, Z., Xu, L. Asymptotic criticality of the Navier–Stokes
@@ -69,8 +78,15 @@ what we claim to have reduced.
 - **[VERIFY]** Bradshaw, Z., Grujić, Z. (2013). Blow-up scenarios for 3D NSE
   exhibiting sub-criticality with respect to the scaling of one-dimensional local
   sparseness. arXiv:1303.0257.
-- **[VERIFY]** *Remarks on sparseness and regularity of Navier–Stokes solutions*
-  (2021), arXiv:2110.02187.
+- **[VERIFIED bibliographically]** Albritton, D., Bradshaw, Z. (2022). Remarks on
+  sparseness and regularity of Navier–Stokes solutions. *Nonlinearity* **35**,
+  2858 (arXiv:2110.02187). **Two stated goals:** (i) a simple proof that
+  sufficiently sparse Navier–Stokes solutions do not develop singularities — an
+  alternative to Grujić's analyticity/harmonic-measure route, so the sufficiency
+  direction of A13 has two independent proofs; (ii) an analysis of *the claims*
+  that a priori sparseness estimates reduce the scaling gap. **Obtain and read
+  this before freezing the preregistration** — it is the single most important
+  unread source for this project.
 
 ## Log-weighted bmo depletion (A16 — the sharpest target)
 

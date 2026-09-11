@@ -1,9 +1,12 @@
 # Preregistration — NS-Γ geometric measurement campaign
 
-**Status: DRAFT. Not yet frozen.** Freezing requires (i) the citation
-verification pass of `paper/references.md` to complete, so that H2's threshold
-can be set from the published value rather than from our own data, and (ii) a git
-tag `prereg-v1` recording the SHA-256 below. Until then no run executed against
+**Status: DRAFT. Not yet frozen.** Freezing requires (i) reading two
+specific papers that this runtime cannot reach — Grujić, *Nonlinearity* **26**
+(2013) 289 for the threshold $\delta_0$, and Albritton–Bradshaw, *Nonlinearity*
+**35** (2022) 2858 for the status of the contested scaling-gap claims — and (ii)
+a git tag `prereg-v1` recording the SHA-256 below. A partial verification pass
+has been done (see `paper/references.md`): 15 of 38 entries are now confirmed,
+and it already caught one substantive error in H2 (below). Until then no run executed against
 this document may be described as preregistered.
 
 ## 0. Why this document exists
@@ -25,12 +28,26 @@ different seed.
 **Note:** H1 is *expected to hold*. Confirming it is uninformative and will be
 reported as such. It is preregistered so that a surprise cannot be dismissed.
 
-### H2 — sparseness (Theorem C3)
+### H2 — sparseness (Theorem C3) — **definition corrected**
 **Prediction:** for every IC and every $t$ in the resolved window, the 95th
-percentile of the per-point 1D sparseness of $\Omega_{0.5}(t)$ at $r=\ell_\nu$
-satisfies $\delta_{p95}\le\delta_0$.
-**$\delta_0$: UNSET.** It must be taken from the published threshold of the
-sparseness criterion (A13/A14). **Setting $\delta_0$ from our own measurements
+percentile of the per-point 1D sparseness satisfies $\delta_{p95}\le\delta_0$
+**for every one of the six super-level sets
+$\{\omega_i^{\pm}>\lambda\|\omega_i^{\pm}\|_\infty\}$, $i=1,2,3$, $\lambda=1/2$** —
+the reported statistic is the *worst* of the six, since the criterion requires
+all of them to be thin.
+
+**Correction recorded:** an earlier draft used $\{|\omega|>\lambda M\}$. That is a
+different hypothesis from the one A13 assumes, and it is biased in the dangerous
+direction: measured at $64^3$ on the smoothed vortex sheet, the $|\omega|$-set
+gives $\delta_{p95}=0.061$ while the worst component set gives $0.152$ — a factor
+2.5 — so the wrong definition made the configuration look *thinner than it is*
+and would have over-confirmed H2. Found during citation verification, before any
+campaign run.
+**$\delta_0$: still UNSET.** It must be taken from the published threshold of the
+sparseness criterion (A13). Verification confirmed the *form* of the definition
+(min over directions of the occupied fraction of a segment of half-length $r$,
+with $r$ comparable to the radius of spatial analyticity) but not the numerical
+threshold; publisher hosts are egress-blocked. **Setting $\delta_0$ from our own measurements
 would make H2 unfalsifiable and is forbidden.** If the published threshold cannot
 be established, H2 is reported as *descriptive only* and not as a test.
 **Falsified by:** any resolved run exceeding $\delta_0$ with $N$-independence

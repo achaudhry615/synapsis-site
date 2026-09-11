@@ -101,9 +101,28 @@ replaces it. $C_{\log}$ is not bounded a priori; it is measurable.
 
 **A12 (Leray lower bound).** $\|\omega(t)\|_{L^\infty}\ge c\,(T^*-t)^{-1}$. Hence any power-law fit $\|\omega\|_\infty\sim A(T^*-t)^{-a}$ to credible blow-up data must return $a\ge 1$.
 
-**A13 (Grujić sparseness criterion).** [VERIFY: Grujić 2013, arXiv:1111.0217] A local anisotropic geometric-measure condition: if the suitably cut vorticity super-level sets are *1D $\delta$-sparse* at a scale comparable to the radius of spatial analyticity (itself bounded below in terms of $\|\omega\|_\infty$), no finite-time blow-up occurs. The proof is via analyticity plus the harmonic-measure majorisation principle: sparse sets carry small harmonic measure, which forbids growth of the $L^\infty$ norm. **This is the rigorous form of "concentration geometry implies regularity", and it is the correct anchor for this program.** [VERIFY the exact exponent relating the sparseness scale to $\|\omega\|_\infty$, and the threshold value of $\delta$.]
+**A13 (Grujić sparseness criterion).** [VERIFIED bibliographically: Grujić, *Nonlinearity* **26** (2013) 289, arXiv:1111.0217.] A local anisotropic geometric-measure condition preventing finite-time singularity formation, via *1D $\delta$-sparseness* of the regions of intense fluid activity.
 
-**A14 (algebraic reduction of the scaling gap).** Bradshaw–Farhat–Grujić, *ARMA* (2019): within the sparseness framework the scaling gap is reduced by an *algebraic* factor — the first non-logarithmic reduction since the 1960s. [VERIFY exact exponents.] Related: Farhat–Grujić–Leitmeyer (volumetric sparseness, $B^{-1}_{\infty,\infty}$); Grujić–Xu (asymptotic criticality).
+**Two corrections to how this was stated in an earlier draft of this document, both found during citation verification:**
+
+1. **The super-level sets are those of the positive and negative parts of the vorticity COMPONENTS $\omega_i^{\pm}$ — six sets — not of $|\omega|$.** The framework is built on "the scale of sparseness of the super-level sets of the positive and negative parts of the vorticity components". A sparseness statement about $\{|\omega|>\lambda M\}$ is a *different* hypothesis and is not what the theorem assumes.
+2. **The scale is comparable to the radius of spatial analyticity** (measured in $L^\infty$) — the natural dissipation scale produced by analytic smoothing in the viscous case — *not* $\ell_\nu$ by definition, as written before. The two are of the same order, but the identification needs an argument.
+
+Mechanism: the harmonic-measure majorisation principle (log-convexity of the modulus of an analytic function), applied on a disc of radius comparable to the analyticity radius. If the intense-vorticity regions are sparse enough the associated harmonic measure is small enough to forbid further growth of the $L^\infty$ norm — a "self-improving" bound on the sup-norm.
+
+**Independent second proof.** Albritton–Bradshaw, *Nonlinearity* **35** (2022) 2858 (arXiv:2110.02187) give "a simple proof that sufficiently sparse Navier–Stokes solutions do not develop singularities", explicitly as an alternative to Grujić's analyticity/harmonic-measure argument. The *sufficiency* direction — sparse $\Rightarrow$ regular — is therefore proved twice by different methods. That is what Theorem C3 reduces to.
+
+[STILL UNVERIFIED: the threshold value of $\delta_0$ and the constant relating the sparseness scale to the analyticity radius; primary sources were egress-blocked. `H2`'s threshold remains UNSET for this reason.]
+
+**Numerical consequence of correction (1).** Measured at $64^3$, $\lambda=1/2$, $r=16$ cells: for the smoothed vortex sheet, $\delta_{p95}=0.061$ on the $|\omega|$-set but $0.152$ on the worst of the six component sets — a factor **2.5 larger**. The wrong definition reported the configuration as *thinner than it is*, i.e. it was biased **toward falsely confirming** the C3 hypothesis. `gamma.sparseness_grujic` now computes all six component sets and reports the worst, since the criterion requires every one of them to be thin.
+
+**A14 (algebraic reduction of the scaling gap) — CONTESTED, not relied upon.** Bradshaw–Farhat–Grujić, *ARMA* **231** (2019) 1983–2005 (arXiv:1704.05546): within the sparseness framework, an a priori bound algebraically better than the energy-level bound while keeping the regularity criterion at the classical level — the first non-logarithmic reduction of the scaling gap since the 1960s.
+
+**However:** Albritton–Bradshaw, *Nonlinearity* **35** (2022) 2858, give as their second goal that they "analyze the claims that a priori estimates on the sparseness of the vorticity and higher velocity derivatives reduce the 'scaling gap' in the regularity problem" — a critical examination of Bradshaw–Farhat–Grujić (2019) and Grujić–Xu, **co-authored by one of the authors of the 2019 paper**. We could not obtain it (egress-blocked) and do not know the verdict. **A14 is therefore recorded as contested and is used nowhere in Parts B, C or D.** Nothing in this document depends on the scaling gap having been reduced.
+
+This sharpens the framing. The *sufficiency* direction (sparse $\Rightarrow$ regular, A13) is solid. What is contested is the *a priori* direction — whether Navier–Stokes actually produces sparseness at the required scale. **That a priori direction is precisely `NS-G01`.** The literature's open question and this document's open node are the same question.
+
+Related: Farhat–Grujić–Leitmeyer (volumetric sparseness, $B^{-1}_{\infty,\infty}$); Grujić–Xu (asymptotic criticality). Both inherit the caveat.
 
 **A15 (Cheskidov–Shvydkoy).** Regularity criteria in $B^{-1}_{\infty,\infty}$ [VERIFY]. This is the **only** rigorous bridge from spectral/band-limited data to a regularity theorem, and it is the reason the multifractal branch of the original program is downgraded (§6.2).
 
@@ -262,9 +281,11 @@ bookkeeping point in the document: the natural strengthening runs the wrong way.
 ### Theorem C3 (thinness route) — node `NS-G02`
 
 *Suppose* there exist $\lambda\in(0,1)$, $\delta<\delta_0$ and $c>0$ such that for
-all $t$ in a left-neighbourhood of $T^*$, every point of $\Omega_\lambda(t)$ is
-$\delta$-thin at scale $r=c\,\ell_\nu(t)$, with $\delta_0$ and the admissible
-range of $c$ as in A13. *Then* $T^*$ is not a singular time.
+all $t$ in a left-neighbourhood of $T^*$, **every one of the six sets
+$\{\omega_i^{\pm}>\lambda\|\omega_i^{\pm}\|_\infty\}$, $i=1,2,3$,** has all of its
+points $\delta$-thin at scale $r=c\,R_{\rm an}(t)$, where $R_{\rm an}$ is the
+uniform lower bound on the radius of spatial analyticity and $\delta_0,c$ are as
+in A13. *Then* $T^*$ is not a singular time.
 
 *Proof.* Lemma C1 converts thinness to 1D $\delta$-sparseness at the stated
 scale; A13 applies verbatim. $\square$

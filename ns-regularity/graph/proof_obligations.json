@@ -285,10 +285,10 @@
       "title": "Grujic 1D sparseness regularity criterion via harmonic measure maximum principle",
       "kind": "standard",
       "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
-      "citation": "Grujic 2013 (arXiv 1111.0217)",
+      "citation": "Grujic Nonlinearity 26(1) 289 (2013); arXiv 1111.0217",
       "measurable_by": "sparseness_delta",
       "closes": "",
-      "notes": "Sparseness at scale comparable to radius of spatial analyticity prevents blowup",
+      "notes": "Sparseness of the six super-level sets of the POSITIVE AND NEGATIVE PARTS of the vorticity COMPONENTS (not |omega|) at a scale comparable to the radius of spatial analyticity; delta_0 still unverified",
       "out_edges": [],
       "in_edges": [
         {
@@ -307,11 +307,11 @@
       "id": "NS-S14",
       "title": "Bradshaw-Farhat-Grujic algebraic reduction of the scaling gap",
       "kind": "standard",
-      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "status": "CONTESTED",
       "citation": "Bradshaw-Farhat-Grujic ARMA 2019",
       "measurable_by": "sparseness_delta",
       "closes": "",
-      "notes": "First non-logarithmic reduction of NS supercriticality since the 1960s",
+      "notes": "Scaling-gap reduction critically examined by Albritton-Bradshaw 2022, co-authored by one of the 2019 authors; NOT relied upon anywhere",
       "out_edges": [
         {
           "to": "NS-S13",
@@ -319,7 +319,18 @@
           "note": "Algebraic reduction built on the sparseness framework"
         }
       ],
-      "in_edges": []
+      "in_edges": [
+        {
+          "from": "NS-S20",
+          "relation": "obstructed_by",
+          "note": "Same paper critically examines the scaling-gap reduction claim"
+        },
+        {
+          "from": "NS-G01",
+          "relation": "depends_on",
+          "note": "The contested a priori sparseness direction IS NS-G01"
+        }
+      ]
     },
     {
       "id": "NS-S15",
@@ -556,6 +567,11 @@
           "to": "NS-S17",
           "relation": "obstructed_by",
           "note": "Mechanism must be kernel-specific"
+        },
+        {
+          "to": "NS-S14",
+          "relation": "depends_on",
+          "note": "The contested a priori sparseness direction IS NS-G01"
         }
       ],
       "in_edges": [
@@ -574,7 +590,7 @@
       "citation": "this work by reduction to NS-S13",
       "measurable_by": "sparseness_delta",
       "closes": "NS-C01 given NS-G01",
-      "notes": "Proved by reduction; hypothesis unproved",
+      "notes": "Proved by reduction to NS-S13/NS-S20; hypothesis is on the SIX component super-level sets, corrected after citation verification",
       "out_edges": [
         {
           "to": "NS-S13",
@@ -590,6 +606,11 @@
           "to": "NS-C01",
           "relation": "would_close",
           "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        },
+        {
+          "to": "NS-S20",
+          "relation": "reduces_to",
+          "note": "Second independent route to the same conditional theorem"
         }
       ],
       "in_edges": [
@@ -1156,11 +1177,36 @@
         }
       ],
       "in_edges": []
+    },
+    {
+      "id": "NS-S20",
+      "title": "Albritton-Bradshaw independent proof that sufficiently sparse solutions stay regular",
+      "kind": "standard",
+      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
+      "citation": "Albritton-Bradshaw Nonlinearity 35 (2022) 2858; arXiv 2110.02187",
+      "measurable_by": "sparseness_delta_components",
+      "closes": "",
+      "notes": "Second independent proof of the sufficiency direction of A13, avoiding analyticity and harmonic measure; same paper analyses the contested scaling-gap claims",
+      "out_edges": [
+        {
+          "to": "NS-S14",
+          "relation": "obstructed_by",
+          "note": "Same paper critically examines the scaling-gap reduction claim"
+        }
+      ],
+      "in_edges": [
+        {
+          "from": "NS-G02",
+          "relation": "reduces_to",
+          "note": "Second independent route to the same conditional theorem"
+        }
+      ]
     }
   ],
   "summary": {
     "CERTIFIED_STANDARD": 13,
     "CERTIFIED_STANDARD_VERIFY_CITATION": 6,
+    "CONTESTED": 1,
     "NO_GO_PROVEN": 4,
     "OPEN": 2,
     "THEOREM_CONDITIONAL": 3,

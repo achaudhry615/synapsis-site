@@ -29,6 +29,15 @@ def geometry_snapshot(g, uh, nu, d, capture=0.9):
     spars = gamma.sparseness_curve(mask, r_cells, n_samples=2500)
     for s in spars:
         s["r_over_ell_nu"] = float(s["r_cells"] / ell_nu_cells) if ell_nu_cells > 0 else float("inf")
+    # The ACTUAL Theorem C3 hypothesis: sparseness of the six super-level sets of
+    # the positive and negative parts of the vorticity COMPONENTS (Grujic 2013).
+    # The |omega|-set curve above is retained only as a diagnostic.
+    grujic = []
+    for r in r_cells:
+        gs_ = gamma.sparseness_grujic(om, r, lam=0.5, n_samples=2000)
+        gs_["r_over_ell_nu"] = float(r / ell_nu_cells) if ell_nu_cells > 0 else float("inf")
+        gs_.pop("per_set", None)
+        grujic.append(gs_)
 
     box_cells = [b for b in (2, 4, 8, 16) if g.N % b == 0 and b <= g.N // 4]
     return {
@@ -37,7 +46,8 @@ def geometry_snapshot(g, uh, nu, d, capture=0.9):
         "set_volume_fraction": vf,
         "ell_nu": ell_nu,
         "ell_nu_over_dx": float(ell_nu_cells),
-        "sparseness_curve": spars,
+        "sparseness_curve_magnitude_DIAGNOSTIC": spars,
+        "sparseness_grujic_components": grujic,
         "holder_beta": gamma.holder_beta_xi(xi, mask, [1, 2, 4, 8]),
         "mean_oscillation": gamma.mean_oscillation_modulus(xi, mask, [2, 4, 8, 16], dx=g.dx, L=g.L),
         "dimensions": gamma.generalized_dimensions(gp, box_cells)["D"],
@@ -116,12 +126,12 @@ def main():
             d = dg.basic(g, s.vh, a.nu)
             gs = geometry_snapshot(g, s.vh, a.nu, d)
             log.write({"record": "geometry", "t": s.t, **gs})
-            sp = gs["sparseness_curve"]
+            sp = gs["sparseness_grujic_components"]
             best = min(sp, key=lambda q: abs(q["r_over_ell_nu"] - 1.0))
             print(f"  t={s.t:6.3f}  wmax={d['omega_max']:7.4f}  kmax*eta={d['kmax_eta']:5.2f}  "
                   f"ell_nu/dx={gs['ell_nu_over_dx']:5.2f}  R_E={gs['R_E']:+7.3f}  "
                   f"beta={gs['holder_beta']['beta']:5.3f}  D_inf={gs['dimensions'].get('inf', float('nan')):5.2f}  "
-                  f"delta(r~ell_nu)={best['delta_p95']:.3f}")
+                  f"delta_G(r~ell_nu)={best['delta_worst_p95']:.3f}")
             isnap += 1
 
     ts, wmax = np.array(ts), np.array(wmax)

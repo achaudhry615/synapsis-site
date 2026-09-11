@@ -40,3 +40,6 @@ NS-N11,NS-S06,diagnostic_for,BKM forces alpha >= 1
 NS-N12,NS-S11,diagnostic_for,ESS forces L3 blowup
 NS-FV01,NS-G01,depends_on,Blocked until a new lemma exists
 NS-X01,NS-P01,superseded_by,Prior rounds replaced by the preregistered campaign
+NS-G02,NS-S20,reduces_to,Second independent route to the same conditional theorem
+NS-S20,NS-S14,obstructed_by,Same paper critically examines the scaling-gap reduction claim
+NS-G01,NS-S14,depends_on,The contested a priori sparseness direction IS NS-G01

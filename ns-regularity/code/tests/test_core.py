@@ -109,6 +109,22 @@ class TestGamma(unittest.TestCase):
         masked = gamma.box_counting_dimension(f > thr, [2, 4, 8, 16])["D0"]
         self.assertLess(masked, 2.0)
 
+    def test_grujic_uses_component_sets_not_magnitude(self):
+        """Theorem C3's hypothesis is on the six sets {omega_i^+/- > lam sup},
+        NOT on {|omega| > lam max|omega|}. The two differ, and for a sheet the
+        magnitude version under-reports delta -- biased toward confirming C3."""
+        g = Grid(64)
+        uh = np.stack([g.fft(c) for c in ic.vortex_sheet(g)])
+        om = np.stack([g.ifft(c) for c in g.curl(uh)])
+        mag = np.sqrt(sum(om[i] ** 2 for i in range(3)))
+        d_mag = gamma.sparseness_1d(mag > 0.5 * mag.max(), 16, n_samples=800)["delta_p95"]
+        gr = gamma.sparseness_grujic(om, 16, lam=0.5, n_samples=800)
+        sets = gamma.component_superlevel_sets(om, lam=0.5)
+        self.assertLessEqual(len(sets), 6)
+        self.assertGreater(len(sets), 0)
+        # the correct statistic is strictly larger here: the bug mattered
+        self.assertGreater(gr["delta_worst_p95"], d_mag)
+
     def test_stretching_identity(self):
         """omega_i omega_j d_j u_i must equal omega . S omega."""
         g = Grid(32)

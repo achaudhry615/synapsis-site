@@ -374,3 +374,58 @@ def box_counting_dimension(mask, box_cells):
         return {"D0": float("nan"), "scales": scales, "counts": counts}
     slope = np.polyfit(np.log(scales), np.log(counts), 1)[0]
     return {"D0": float(-slope), "scales": scales, "counts": counts}
+
+
+# --------------------------------------------------------------------------
+# C3, corrected: Grujic's criterion is stated on the super-level sets of the
+# POSITIVE AND NEGATIVE PARTS OF THE VORTICITY COMPONENTS, not of |omega|.
+# --------------------------------------------------------------------------
+def component_superlevel_sets(omega, lam=0.5):
+    """The six sets {omega_i^{+/-} > lam * ||omega_i^{+/-}||_inf}, i = 1,2,3.
+
+    Grujic (2013) and Bradshaw-Farhat-Grujic (2019) define the scale of
+    sparseness on the super-level sets of the positive and negative parts of the
+    vorticity COMPONENTS. Using {|omega| > lam ||omega||_inf} instead is a
+    different (and in general strictly larger, less anisotropic) family of sets,
+    and a sparseness statement about it is NOT the hypothesis of the theorem.
+
+    Returns a list of (label, mask, sup) triples, one per component and sign.
+    """
+    out = []
+    for i, axis in enumerate("xyz"):
+        for sgn, tag in ((+1.0, "+"), (-1.0, "-")):
+            part = np.maximum(sgn * omega[i], 0.0)
+            sup = float(part.max())
+            if sup <= 0:
+                continue
+            out.append((f"w{axis}{tag}", part > lam * sup, sup))
+    return out
+
+
+def sparseness_grujic(omega, r_cells, lam=0.5, n_samples=2000, rng=None):
+    """1D sparseness of ALL SIX component super-level sets (the C3 hypothesis).
+
+    The criterion requires every one of the six sets to be thin, so the
+    reportable quantity is the WORST (largest) delta over them. Reporting only
+    the mean would hide the set that fails.
+    """
+    sets = component_superlevel_sets(omega, lam=lam)
+    per = {}
+    for label, mask, sup in sets:
+        st = sparseness_1d(mask, r_cells, n_samples=n_samples, rng=rng)
+        st["sup"] = sup
+        st["volume_fraction"] = float(mask.mean())
+        per[label] = st
+    if not per:
+        return {"per_set": {}, "delta_worst_p95": float("nan"), "lam": lam,
+                "r_cells": float(r_cells)}
+    worst = max(per.values(), key=lambda q: (q["delta_p95"] if q["delta_p95"] == q["delta_p95"] else -1))
+    worst_label = [k for k, v in per.items() if v is worst][0]
+    return {
+        "per_set": per,
+        "lam": lam,
+        "r_cells": float(r_cells),
+        "delta_worst_p95": float(worst["delta_p95"]),
+        "delta_worst_set": worst_label,
+        "delta_mean_over_sets": float(np.mean([v["delta_p95"] for v in per.values()])),
+    }
