@@ -12,9 +12,18 @@ import numpy as np
 
 
 class NSSolver:
-    def __init__(self, grid, nu, u0, cfl=0.4, dt_max=None):
+    def __init__(self, grid, nu, u0, cfl=0.4, dt_max=None, visc_dt_factor=1.0):
+        """visc_dt_factor caps dt at visc_dt_factor / (nu k_max^2).
+
+        The integrating factor makes the viscous term EXACT, so this cap is not
+        needed for stability. It is needed for measurement: the budget residuals
+        are O(dt^2)-accurate finite differences, and in a slow flow the CFL
+        condition permits a dt large enough that the residual reports the
+        difference error rather than the solver error. Set to None to disable.
+        """
         self.g, self.nu, self.cfl = grid, float(nu), float(cfl)
         self.dt_max = dt_max
+        self.visc_dt_factor = visc_dt_factor
         self.t = 0.0
         self.step_count = 0
         uh = np.stack([grid.fft(c) for c in u0])
@@ -46,6 +55,8 @@ class NSSolver:
         u = self.velocity()
         umax = float(np.max(np.abs(u))) + 1e-30
         dt = self.cfl * self.g.dx / (np.sqrt(3.0) * umax)
+        if self.visc_dt_factor is not None and self.nu > 0:
+            dt = min(dt, self.visc_dt_factor / (self.nu * self.g.kmax**2))
         if self.dt_max is not None:
             dt = min(dt, self.dt_max)
         return dt

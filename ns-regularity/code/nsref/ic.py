@@ -66,6 +66,24 @@ def antiparallel_tubes(grid, sep=1.6, core=0.35, amp=1.0, perturb=0.12, kpert=1.
     return np.stack([grid.ifft(c) for c in uh])
 
 
+def kida_pelz(grid, amp=1.0):
+    """Kida-Pelz high-symmetry flow.
+
+        u_x = sin x (cos 3y cos z - cos y cos 3z)   and cyclic permutations.
+
+    Classical high-symmetry near-singular candidate. The symmetry group is
+    preserved by the dynamics, so SYMMETRY_PRESERVED (gate NS-N13) applies here
+    as it does to Taylor-Green.
+    """
+    X, Y, Z = _mesh(grid)
+    u = np.stack([
+        amp * np.sin(X) * (np.cos(3 * Y) * np.cos(Z) - np.cos(Y) * np.cos(3 * Z)),
+        amp * np.sin(Y) * (np.cos(3 * Z) * np.cos(X) - np.cos(Z) * np.cos(3 * X)),
+        amp * np.sin(Z) * (np.cos(3 * X) * np.cos(Y) - np.cos(X) * np.cos(3 * Y)),
+    ])
+    return _project(grid, u)
+
+
 def vortex_sheet(grid, thickness=0.3, amp=1.0, perturb=0.1):
     """Smoothed shear layer (tanh profile) with a transverse perturbation."""
     X, Y, Z = _mesh(grid)
@@ -99,6 +117,7 @@ REGISTRY = {
     "taylor_green": taylor_green,
     "abc": abc_flow,
     "antiparallel_tubes": antiparallel_tubes,
+    "kida_pelz": kida_pelz,
     "vortex_sheet": vortex_sheet,
     "multiscale_random": multiscale_random,
 }

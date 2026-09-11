@@ -51,11 +51,17 @@ families below have either a theorem or a published benchmark behind them.
 | smoothed vortex sheet | $D=2$ concentration | implemented |
 | multiscale random (seeded) | regression case for the prior run's ADV023 | implemented |
 | **Lu–Doering / Ayala–Protas extreme states** | *variationally optimal* enstrophy growth — saturate the A4 bound | **TODO: gradient ascent, or start from the published analytic candidates** |
-| **Kida–Pelz high symmetry** | classical near-singular; symmetry gate applies | **TODO** |
+| Kida–Pelz high symmetry | classical near-singular; symmetry gate applies | implemented (exact analytic $E=3/8$, $\Omega=33/8$, $\|\omega\|_\infty=8$) |
 | **colliding vortex rings** | Kerr's $\sqrt{\nu}$ circulation scaling is a solver-validation target | **TODO** |
 
-The three TODO families are the ones most likely to matter and are the first
-extension; the implemented five suffice to exercise the pipeline.
+The two remaining TODO families are the ones most likely to matter and are the
+first extension; the implemented six suffice to exercise the pipeline.
+
+**Note on $\nu$:** at $64^3$ the smooth families (antiparallel tubes) run at
+$k_{\max}\eta\approx14$–$22$ with $\nu=0.02$ — far over-resolved, and hence the
+only cases in which $\delta(r\!\sim\!\ell_\nu)$ was measurable at all
+($\ell_\nu/\Delta x\approx2$–$3$). That is the resolution trade-off of §2 showing
+up in practice: over-resolution is what buys the geometry measurement.
 
 ## 4. Solver and hardware
 
