@@ -44,16 +44,26 @@ what we claim to have reduced.
 - **[VERIFIED]** Constantin, P., Fefferman, C. (1993). Direction of vorticity and
   the problem of global regularity for the Navier–Stokes equations. *Indiana
   Univ. Math. J.* **42**, 775–789. — A8.
-- **[VERIFY]** Constantin, P. (1994). Geometric statistics in turbulence. *SIAM
-  Review* **36**, 73–98. — A7, the singular-integral representation of $\alpha$
-  with the $|\sin\angle|$ kernel bound. **The single most load-bearing citation
-  in this program**; verify the kernel bound verbatim.
-- **[VERIFY]** Beirão da Veiga, H., Berselli, L.C. (2002). On the regularizing
-  effect of the vorticity direction in incompressible viscous flows. *Differential
-  Integral Equations* **15**, 345–356. — A9, the Hölder-$1/2$ refinement.
-  Secondary sources confirm the $1/2$ threshold; **verify whether $\beta\ge1/2$ is
-  the stated hypothesis or whether additional conditions accompany it**, since
-  $\theta_c=1/2$ in Theorem C4 rests entirely on this.
+- **[VERIFIED bibliographically; KERNEL BOUND NOT VERIFIED]** Constantin, P.
+  (1994). Geometric statistics in turbulence. *SIAM Review* **36**, 73–98. — A7,
+  the singular-integral representation of $\alpha$ with the $|\sin\angle|$ kernel
+  bound. **The single most load-bearing citation in this program**: it is the
+  mechanism every surviving route in Part C depends on, and it is what Tao's
+  averaging destroys. The exact kernel bound could not be obtained from any
+  reachable source and must be checked verbatim. Until then, A7 is used only
+  qualitatively (stretching is suppressed where the direction field is locally
+  coherent) and no quantitative constant from it enters any argument here.
+- **[VERIFIED bibliographically; threshold CONFIRMED, full hypothesis NOT]**
+  Beirão da Veiga, H., Berselli, L.C. (2002). On the regularizing effect of the
+  vorticity direction in incompressible viscous flows. *Differential Integral
+  Equations* **15**, 345–356. — A9. Confirmed: Lipschitz continuity of the
+  vorticity direction can be replaced by $1/2$-Hölder continuity, and at
+  $\beta=1/2$ one obtains $\omega\in L^\infty_tL^2_x$, hence smoothness. This is
+  the origin of $\theta_c=1/2$ in Theorem C4. **Still unverified:** the precise
+  function space and the region over which the Hölder bound is required (a
+  neighbourhood of the high-vorticity set, with what uniformity). Theorem C4
+  states it as uniform Hölder on an $r$-neighbourhood of $E_\lambda$; that form
+  should be checked against the published hypothesis before C4 is relied upon.
 - **[VERIFY]** Beirão da Veiga, H. (2016). Open problems concerning the Hölder
   continuity of the direction of vorticity for the Navier–Stokes equations.
   arXiv:1604.08083.
