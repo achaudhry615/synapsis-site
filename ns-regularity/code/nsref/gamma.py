@@ -176,14 +176,23 @@ def holder_beta_xi(xi, mask, h_cells, dirs=_DIRS13, n_samples=4000, rng=None):
 # --------------------------------------------------------------------------
 # C5: local mean oscillation of xi, and its modulus
 # --------------------------------------------------------------------------
-def mean_oscillation_modulus(xi, mask, box_cells, dx=1.0):
+def mean_oscillation_modulus(xi, mask, box_cells, dx=1.0, L=None):
     """mu_xi(r) = < (1/|B_r|) int_{B_r} |xi - <xi>_{B_r}| > over boxes meeting `mask`.
 
-    Theorem C5 (A16) asks whether mu_xi(r) decays like 1/|log r| as r -> 0.
-    Returns per-scale mu and the ratio mu * |log r|, which should stay BOUNDED
-    if the bmo_{1/|log r|} hypothesis holds.
+    Theorem C5 (A16) asks whether mu_xi(r) decays like 1/log(L/r) as r -> 0, i.e.
+    whether mu_xi(r) * log(L/r) stays BOUNDED.
+
+    The weight MUST be referenced to the outer scale L. Using |log r| instead is
+    a trap: it vanishes at r = 1 and is non-monotone across it, so the product
+    reports a smooth field as "growing" and a white-noise field as "decaying" --
+    exactly backwards. log(L/r) is positive and monotone for r < L.
+
+    Also returns the log-log slope of mu(r), which is the robust discriminator:
+    slope ~ +1 for a Lipschitz direction field, ~0 for one with no regularity.
     """
     N = xi.shape[1]
+    if L is None:
+        L = N * dx
     out = []
     for b in box_cells:
         if N % b:
@@ -204,9 +213,17 @@ def mean_oscillation_modulus(xi, mask, box_cells, dx=1.0):
         osc = dev.mean(axis=3)[sel]
         r = b * dx
         mu = float(osc.mean())
+        w = np.log(L / r) if 0 < r < L else float("nan")
         out.append({"box_cells": int(b), "r": float(r), "mu": mu,
-                    "mu_times_absLogR": float(mu * abs(np.log(r))) if r > 0 and r != 1 else float("nan"),
+                    "log_outer_over_r": float(w),
+                    "mu_times_logL_over_r": float(mu * w),
                     "n_boxes": int(sel.sum())})
+    if len(out) >= 3:
+        rs = np.log([o["r"] for o in out])
+        ms = np.log([max(o["mu"], 1e-300) for o in out])
+        slope = float(np.polyfit(rs, ms, 1)[0])
+        for o in out:
+            o["mu_loglog_slope"] = slope
     return out
 
 

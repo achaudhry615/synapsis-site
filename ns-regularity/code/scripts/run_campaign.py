@@ -39,7 +39,7 @@ def geometry_snapshot(g, uh, nu, d, capture=0.9):
         "ell_nu_over_dx": float(ell_nu_cells),
         "sparseness_curve": spars,
         "holder_beta": gamma.holder_beta_xi(xi, mask, [1, 2, 4, 8]),
-        "mean_oscillation": gamma.mean_oscillation_modulus(xi, mask, [2, 4, 8, 16], dx=g.dx),
+        "mean_oscillation": gamma.mean_oscillation_modulus(xi, mask, [2, 4, 8, 16], dx=g.dx, L=g.L),
         "dimensions": gamma.generalized_dimensions(gp, box_cells)["D"],
         "box_counting_D0": gamma.box_counting_dimension(mask, box_cells)["D0"],
         "R_E": gamma.restricted_ratio(net, gw2, mask, nu),

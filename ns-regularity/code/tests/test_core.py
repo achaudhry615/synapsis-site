@@ -61,6 +61,23 @@ class TestSolver(unittest.TestCase):
         self.assertEqual(s.max_dealias_residual, 0.0)
 
 
+    def test_beltrami_exact_decay(self):
+        """ABC is Beltrami (curl u = u), so u x omega = 0 and u(t) = u0 exp(-nu t)
+        is an EXACT solution of the full Navier-Stokes equations. The solver must
+        reproduce it to round-off."""
+        g = Grid(32)
+        nu = 0.1
+        u0 = ic.abc_flow(g)
+        uh0 = np.stack([g.fft(c) for c in u0])
+        self.assertLess(np.abs(g.curl(uh0) - uh0).max() / np.abs(uh0).max(), 1e-12)
+        s = NSSolver(g, nu, u0)
+        for _ in range(30):
+            s.step()
+        exact = u0 * np.exp(-nu * s.t)
+        rel = np.abs(s.velocity() - exact).max() / np.abs(exact).max()
+        self.assertLess(rel, 1e-9)
+
+
 class TestGamma(unittest.TestCase):
     def test_known_geometry_ordering(self):
         g = Grid(64)

@@ -107,6 +107,21 @@ def test_solver_conservation():
     check("energy monotonically decreasing (unforced)", emono)
     check("dealias residual zero over the run", s.max_dealias_residual == 0.0)
     check("divergence stays zero", prev["div_max"] < 1e-12, f"div={prev['div_max']:.2e}")
+    # Exact nontrivial solution: ABC is Beltrami (curl u = u) so u x omega = 0
+    # and u(t) = u0 exp(-nu t) solves the full equations. The sharpest test here.
+    g2 = Grid(32)
+    nu2 = 0.1
+    u0 = ic.abc_flow(g2)
+    uh0 = np.stack([g2.fft(c) for c in u0])
+    check("ABC is Beltrami (curl u == u)",
+          np.abs(g2.curl(uh0) - uh0).max() / np.abs(uh0).max() < 1e-12)
+    s2 = NSSolver(g2, nu2, u0)
+    for _ in range(30):
+        s2.step()
+    rel = (np.abs(s2.velocity() - u0 * np.exp(-nu2 * s2.t)).max()
+           / np.abs(u0 * np.exp(-nu2 * s2.t)).max())
+    check("solver reproduces the exact Beltrami decay solution", rel < 1e-9,
+          f"rel dev={rel:.2e} after {s2.step_count} steps")
 
 
 def test_geometry_recovery():
@@ -154,6 +169,35 @@ def test_geometry_recovery():
     hb = gamma.holder_beta_xi(xi, m, [1, 2, 4, 8])
     check("smooth (ABC) direction field gives beta ~ 1", 0.7 < hb["beta"] < 1.3,
           f"beta={hb['beta']:.3f} r2={hb['r2']:.3f}")
+
+
+def test_c5_modulus():
+    sec("4b. Theorem C5 estimator: mean-oscillation modulus")
+    g = Grid(64)
+    u = ic.abc_flow(g)
+    uh = np.stack([g.fft(c) for c in u])
+    om = np.stack([g.ifft(c) for c in g.curl(uh)])
+    xi, mag = gamma.vorticity_direction(om)
+    sm = gamma.mean_oscillation_modulus(xi, mag > 0.3 * mag.max(), [2, 4, 8, 16],
+                                        dx=g.dx, L=g.L)
+    rng = np.random.default_rng(0)
+    w = rng.normal(size=(3,) + (g.N,) * 3)
+    xin, _ = gamma.vorticity_direction(w)
+    ns = gamma.mean_oscillation_modulus(xin, np.ones((g.N,) * 3, bool), [2, 4, 8, 16],
+                                        dx=g.dx, L=g.L)
+    check("Lipschitz direction field gives mu(r) slope ~ 1",
+          0.8 < sm[0]["mu_loglog_slope"] < 1.4, f"slope={sm[0]['mu_loglog_slope']:+.3f}")
+    check("white-noise direction field gives mu(r) slope ~ 0",
+          abs(ns[0]["mu_loglog_slope"]) < 0.25, f"slope={ns[0]['mu_loglog_slope']:+.3f}")
+    sp = [o["mu_times_logL_over_r"] for o in sm]
+    npd = [o["mu_times_logL_over_r"] for o in ns]
+    check("C5 product is BOUNDED (shrinks as r->0) for a smooth field",
+          sp[0] < sp[-1], f"{sp[0]:.3f} at small r vs {sp[-1]:.3f} at large r")
+    check("C5 product GROWS as r->0 for a field with no direction regularity",
+          npd[0] > npd[-1], f"{npd[0]:.3f} at small r vs {npd[-1]:.3f} at large r")
+    check("log weight is referenced to the outer scale (never |log r|)",
+          all(o["log_outer_over_r"] > 0 for o in sm),
+          "|log r| vanishes at r=1 and inverts the verdict")
 
 
 def test_fit_recovery():
@@ -221,6 +265,7 @@ if __name__ == "__main__":
     test_dealiasing()
     test_solver_conservation()
     test_geometry_recovery()
+    test_c5_modulus()
     test_fit_recovery()
     test_prop_b1_algebra()
     n = len(RESULTS)

@@ -117,12 +117,31 @@ $\beta$ near 0.5 must not be read as a failure of C4 without accounting for it.
 
 $$\mu_\xi(r)=\Big\langle \tfrac{1}{|B_r|}\int_{B_r}\big|\xi-\langle\xi\rangle_{B_r}\big|\Big\rangle_{B_r\cap E\neq\emptyset}.$$
 
-A16 asks whether $\xi\in\mathrm{bmo}_{1/|\log r|}$ locally, i.e. whether
-$\mu_\xi(r)\,|\log r|$ stays **bounded** as $r\to0$. Report that product, not
+A16 asks whether $\xi$ lies locally in the log-weighted bmo space, i.e. whether
+$\mu_\xi(r)\,\log(L/r)$ stays **bounded** as $r\to0$. Report that product, not
 $\mu_\xi$ alone. This hypothesis is strictly weaker than Hölder-$1/2$ and is the
 one worth targeting: a negative $\beta$ measurement is nearly guaranteed by
 intermittency and says little, whereas a failure of the log-modulus bound would
 be genuinely informative.
+
+**The log weight must be referenced to the outer scale $L$.** Weighting by
+$|\log r|$ instead is a trap that we walked into and caught in calibration:
+$|\log r|$ vanishes at $r=1$ and is non-monotone across it, so in a box of size
+$2\pi$ the product **inverts the verdict**, reporting a smooth field as growing
+and a white-noise field as decaying. Use $\log(L/r)$, which is positive and
+monotone for $r<L$.
+
+Calibration (`validate_pipeline.py` §4b), $64^3$:
+
+| direction field | true regularity | $\mu(r)$ log-log slope | $\mu\log(L/r)$ as $r\to0$ |
+|---|---|---|---|
+| ABC (Beltrami, smooth) | Lipschitz | $+1.13$ | $0.61\to0.15$, **bounded** |
+| band-limited random | smooth | $+0.71$ | shrinks, bounded |
+| white noise | none | $+0.04$ | $1.39\to3.18$, **unbounded** |
+
+The log-log slope of $\mu(r)$ ($\approx1$ for Lipschitz, $\approx0$ for no
+regularity) is the robust discriminator and should be reported alongside the
+product.
 
 ### 5.4 Dimensions — secondary diagnostics only (Prop. B4)
 
