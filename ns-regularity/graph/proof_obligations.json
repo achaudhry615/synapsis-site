@@ -300,6 +300,11 @@
           "from": "NS-G02",
           "relation": "reduces_to",
           "note": "Conditional theorem by reduction to the sparseness criterion"
+        },
+        {
+          "from": "NS-S16",
+          "relation": "depends_on",
+          "note": "A16 terminates by invoking the sparseness criterion at the analyticity radius"
         }
       ]
     },
@@ -336,8 +341,8 @@
       "id": "NS-S15",
       "title": "Cheskidov-Shvydkoy Besov B^{-1}_{inf;inf} regularity criteria",
       "kind": "standard",
-      "status": "CERTIFIED_STANDARD_VERIFY_CITATION",
-      "citation": "Cheskidov-Shvydkoy 2010/2014",
+      "status": "CERTIFIED_STANDARD",
+      "citation": "Cheskidov-Shvydkoy ARMA 195(1) (2010) 159-169; JMFM 16(2) (2014) 263-273",
       "measurable_by": "cs_number",
       "closes": "",
       "notes": "The only rigorous bridge from spectral data to a regularity theorem",
@@ -358,12 +363,17 @@
       "citation": "Grujic arXiv 2607.08866 (2026)",
       "measurable_by": "mu_xi_modulus",
       "closes": "",
-      "notes": "Direction in bmo_{1/|log r|} depletes stretching; weaker than Holder and measurable",
+      "notes": "Chain: commutator recast + Coifman-Rochberg-Weiss + dyadic BMO tails -> log envelope on shrinking super-level sets -> De Giorgi -> subcritical Lorentz-Zygmund -> log gain transferred to velocity FORCING 1D sparseness below the analyticity radius. Terminates in A13's hypothesis, so C5 is UPSTREAM of C3 not parallel to it",
       "out_edges": [
         {
           "to": "NS-S07",
           "relation": "depends_on",
           "note": "Recasts the stretching eigenvalue as a commutator"
+        },
+        {
+          "to": "NS-S13",
+          "relation": "depends_on",
+          "note": "A16 terminates by invoking the sparseness criterion at the analyticity radius"
         }
       ],
       "in_edges": [
@@ -623,6 +633,11 @@
           "from": "NS-P02",
           "relation": "tested_by",
           "note": "H2 measures the sparseness hypothesis"
+        },
+        {
+          "from": "NS-G06",
+          "relation": "reduces_to",
+          "note": "C5 establishes C3's sparseness hypothesis (A16 step 4); the routes are nested, not parallel"
         }
       ]
     },
@@ -715,7 +730,7 @@
       "citation": "this work by reduction to NS-S16",
       "measurable_by": "mu_xi_modulus",
       "closes": "NS-C01 given NS-G01",
-      "notes": "Weakest measurable hypothesis with a published sufficient condition behind it",
+      "notes": "Weakest hypothesis of the three AND implies the C3 geometric conclusion; measuring mu_xi(r) log(L/r) is therefore the highest-value campaign endpoint",
       "out_edges": [
         {
           "to": "NS-S16",
@@ -726,6 +741,11 @@
           "to": "NS-C01",
           "relation": "would_close",
           "note": "Only if NS-G01 supplies the hypothesis from the equations"
+        },
+        {
+          "to": "NS-G02",
+          "relation": "reduces_to",
+          "note": "C5 establishes C3's sparseness hypothesis (A16 step 4); the routes are nested, not parallel"
         }
       ],
       "in_edges": []
@@ -1204,8 +1224,8 @@
     }
   ],
   "summary": {
-    "CERTIFIED_STANDARD": 13,
-    "CERTIFIED_STANDARD_VERIFY_CITATION": 6,
+    "CERTIFIED_STANDARD": 14,
+    "CERTIFIED_STANDARD_VERIFY_CITATION": 5,
     "CONTESTED": 1,
     "NO_GO_PROVEN": 4,
     "OPEN": 2,

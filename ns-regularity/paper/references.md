@@ -118,17 +118,29 @@ what we claim to have reduced.
   in $\mathrm{bmo}_{1/|\log r|}$ (fails Dini, permits oscillatory defects) depletes
   stretching; $|\omega|$ forced into a subcritical Lorentz–Zygmund space under
   $L^{3/2,\infty}$ concentration.
-  **Verify the exact concentration hypothesis and the definition of the weighted
-  space before relying on C5.** This paper post-dates the originating gauntlet
-  runs and was not accounted for in them.
+  **Chain confirmed from the abstract:** commutator recast of the stretching
+  eigenvalue → localised Coifman–Rochberg–Weiss with dyadic BMO tails →
+  logarithmic envelope on shrinking super-level sets → interpolated De Giorgi →
+  subcritical Lorentz–Zygmund for $|\omega|$ → **logarithmic gain transferred to
+  the velocity, forcing the local 1D sparseness scale below the uniform radius of
+  spatial analyticity** → no blow-up. That last step means A16 *terminates in
+  A13's hypothesis*, so C5 is upstream of C3 rather than parallel to it.
+  **Still to verify against the full text:** the precise definition of
+  $\mathrm{bmo}_{1/|\log r|}$, the exact $L^{3/2,\infty}$ concentration
+  hypothesis, and what "critical point singularities" restricts to. This paper
+  post-dates the originating gauntlet runs and was not accounted for in them.
 - **[VERIFY]** *On Decay of the Local Mean Oscillations of the Vorticity Direction
   in Critical Navier–Stokes Flows* (2026), arXiv:2609.05720. Directly relevant to
   the $\mu_\xi(r)$ measurement; obtain and read before freezing the preregistration.
 
 ## Spectral / Besov criteria (A15)
 
-- **[VERIFY]** Cheskidov, A., Shvydkoy, R. (2010/2014). Regularity criteria in
-  $B^{-1}_{\infty,\infty}$. — A15, and the basis for replacing the $\zeta_p$
+- **[VERIFIED bibliographically]** Cheskidov, A., Shvydkoy, R. (2010). The
+  regularity of weak solutions of the 3D Navier–Stokes equations in
+  $B^{-1}_{\infty,\infty}$. *Arch. Ration. Mech. Anal.* **195**(1), 159–169. —
+  A15. And (2014) A unified approach to regularity problems for the 3D
+  Navier–Stokes and Euler equations: the use of Kolmogorov's dissipation range.
+  *J. Math. Fluid Mech.* **16**(2), 263–273. Basis for replacing the $\zeta_p$
   branch with the Cheskidov–Shvydkoy number.
 - **[VERIFY]** Cheskidov, A., Dai, M. The determining wavenumber / dissipation
   wavenumber for Navier–Stokes.

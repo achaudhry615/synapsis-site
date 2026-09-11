@@ -166,7 +166,20 @@ Related: Farhat–Grujić–Leitmeyer (volumetric sparseness, $B^{-1}_{\infty,\i
 
 **A15 (Cheskidov–Shvydkoy).** Regularity criteria in $B^{-1}_{\infty,\infty}$ [VERIFY]. This is the **only** rigorous bridge from spectral/band-limited data to a regularity theorem, and it is the reason the multifractal branch of the original program is downgraded (§6.2).
 
-**A16 (log-weighted bmo depletion).** [VERIFY: Grujić, arXiv:2607.08866, July 2026] For critical point singularities exhibiting $L^{3/2,\infty}$ concentration of vorticity: if the vorticity *direction* lies locally in a logarithmically weighted BMO space $\mathrm{bmo}_{1/|\log r|}$ — a space that fails the Dini condition and therefore *permits wild oscillatory defects* — then vortex stretching is depleted. The stretching eigenvalue is recast as a singular-integral commutator and controlled by a localised Coifman–Rochberg–Weiss estimate with dyadic BMO tail bounds; the stretching potential vanishes as a logarithmic envelope on shrinking super-level sets, forcing $|\omega|$ into a subcritical Lorentz–Zygmund space. **This hypothesis is strictly weaker than Hölder continuity of $\xi$ and is numerically measurable**, which makes it the sharpest available target for the campaign (§4.3).
+**A16 (log-weighted bmo depletion).** [VERIFIED bibliographically; hypotheses from the abstract: Grujić, arXiv:2607.08866, 13 July 2026.] For critical point singularities exhibiting $L^{3/2,\infty}$ spatial concentration of vorticity: if the vorticity *direction* lies locally in a logarithmically weighted BMO space $\mathrm{bmo}_{1/|\log r|}$ — a space failing the Dini condition and therefore permitting wild oscillatory defects — the nonlinear vortex stretching is fundamentally depleted. The chain is:
+
+1. isolate a *unidirectional geometric cancellation* and recast the stretching eigenvalue as a **singular-integral commutator**;
+2. control it by a localised **Coifman–Rochberg–Weiss** estimate with dyadic BMO tail bounds, so the stretching potential vanishes as a logarithmic envelope on shrinking super-level sets;
+3. an interpolated **De Giorgi** energy method forces $|\omega|$ into a subcritical **Lorentz–Zygmund** space;
+4. the logarithmic gain is **transferred to the velocity field, forcing the geometric scale of local 1D sparseness below the uniform radius of spatial analyticity**, which averts blow-up.
+
+**Step 4 is structurally important and corrects how this document previously organised Part C.** A16 does not terminate in its own independent regularity mechanism: it terminates by *establishing the hypothesis of A13* — sparseness below the analyticity radius — and then invokes it. So the three routes are **not parallel**:
+
+$$\text{C5 hypothesis} \;\Longrightarrow\; \text{C3 hypothesis} \;\Longrightarrow\; \text{regularity.}$$
+
+C5 is an *upstream* result whose value is that it derives C3's geometric hypothesis from a hypothesis on the direction field. That is exactly the shape `NS-G01` asks for — except that it replaces one unproved hypothesis with another, rather than deriving either from the equations. It is nonetheless the most substantive progress in the literature toward NS-G01 that we located, and it independently justifies measuring $\delta$ at $r\sim R_{\rm an}$: that is precisely the quantity step 4 drives below threshold.
+
+This also means the C5 hypothesis is the weakest of the three *and* implies the others' geometric conclusion, which makes $\mu_\xi(r)\log(L/r)$ the single most informative thing the campaign can measure.
 
 **A17 (obstructions).**
 - *Tao 2016 (averaged Navier–Stokes)*: an averaged equation with the same energy identity and scaling blows up in finite time. Consequence: **no proof using only the energy identity, scaling, and abstract harmonic analysis can succeed.** Note this is *consistent* with — indeed points toward — a kernel-specific alignment route (A7), since Tao's averaging destroys exactly the kernel cancellation structure that A7 exploits.
@@ -359,12 +372,19 @@ is depleted in the sense of A16 and $T^*$ is not singular.
 
 *Proof.* Reduction to A16. $\square$
 
-**C5 is the weakest hypothesis of the three** — bmo with a logarithmic weight
-admits oscillatory defects that Hölder-$1/2$ forbids — and it is the one the
-campaign should target, because a *negative* measurement (the modulus failing to
-decay logarithmically on the intense set) would be informative, whereas a
-negative Hölder measurement is nearly guaranteed by intermittency and would tell
-us little.
+**C5 is the weakest hypothesis of the three, and it implies C3's geometric
+conclusion** (A16 step 4). bmo with a logarithmic weight admits oscillatory
+defects that Hölder-$1/2$ forbids, so C5's hypothesis is strictly weaker than
+C4's; and because A16 terminates by forcing the sparseness scale below the
+analyticity radius, C5 does not merely run parallel to C3 but *supplies its
+hypothesis*. The implication structure is
+
+$$\text{C5 hyp.}\;\Rightarrow\;\text{C3 hyp.}\;\Rightarrow\;\text{regularity},
+\qquad \text{C4 hyp.}\;\Rightarrow\;\text{regularity (independently).}$$
+
+The campaign should therefore target $\mu_\xi(r)\log(L/r)$ above all: a *negative*
+measurement (the modulus failing to decay) is informative, whereas a negative
+Hölder measurement is nearly guaranteed by intermittency and would tell us little.
 
 ### Where these close NS-C01
 
